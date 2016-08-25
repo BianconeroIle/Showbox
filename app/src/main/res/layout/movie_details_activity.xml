@@ -1,121 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Movie Title"
-            android:id="@+id/titleMovie"
-            android:layout_marginTop="22dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/titleMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Movie Title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
+        android:id="@+id/imageMovieDetails"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:id="@+id/imageMovieDetails"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/titleMovie"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/star"
-        android:layout_alignTop="@+id/titleMovie"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="33dp"
-        android:layout_marginEnd="33dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Director:"
-        android:id="@+id/director"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/imageMovieDetails"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp" />
+        android:layout_below="@+id/titleMovie"
+        android:layout_marginTop="28dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_edit" />
+
 
     <TextView
+        android:id="@+id/director"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Writing Credits:"
-        android:id="@+id/writers"
-        android:layout_below="@+id/director"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageMovieDetails"
+        android:layout_marginTop="27dp"
+        android:text="Director:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/cast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/director"
         android:layout_alignStart="@+id/director"
-        android:layout_marginTop="22dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/director"
+        android:layout_marginTop="22dp"
         android:text="Cast:"
-        android:id="@+id/cast"
-        android:layout_below="@+id/writers"
-        android:layout_alignLeft="@+id/writers"
-        android:layout_alignStart="@+id/writers"
-        android:layout_marginTop="22dp" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
+        android:id="@+id/producedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Produced by:"
-        android:id="@+id/producedBy"
-        android:layout_below="@+id/cast"
         android:layout_alignLeft="@+id/cast"
         android:layout_alignStart="@+id/cast"
-        android:layout_marginTop="21dp" />
+        android:layout_below="@+id/cast"
+        android:layout_marginTop="21dp"
+        android:text="Produced by:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/directorName"
-        android:layout_above="@+id/writers"
-        android:layout_alignRight="@+id/star"
-        android:layout_alignEnd="@+id/star" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/writersName"
-        android:layout_alignBottom="@+id/writers"
-        android:layout_alignLeft="@+id/directorName"
-        android:layout_alignStart="@+id/directorName" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
         android:id="@+id/actors"
-        android:layout_above="@+id/producedBy"
-        android:layout_alignRight="@+id/star"
-        android:layout_alignEnd="@+id/star" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_above="@+id/producedBy"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
         android:id="@+id/producers"
-        android:layout_alignBottom="@+id/producedBy"
-        android:layout_alignRight="@+id/star"
-        android:layout_alignEnd="@+id/star" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/producedBy"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/favouriteStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/titleMovie"
+        android:layout_marginEnd="33dp"
+        android:layout_marginRight="33dp"
+        android:button="@drawable/favourite_button_selector"
+        android:checked="false" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/producedBy"
+        android:layout_marginTop="18dp"
+        android:text="Description:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/descritionMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/description"
+        android:layout_alignLeft="@+id/producers"
+        android:layout_alignStart="@+id/producers"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/directorNames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/actors"
+        android:layout_alignStart="@+id/actors"
+        android:layout_alignTop="@+id/director"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description"
+        android:layout_marginTop="18dp"
+        android:text="Rate: "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rate"
+        android:layout_alignLeft="@+id/descritionMovie"
+        android:layout_alignStart="@+id/descritionMovie"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
