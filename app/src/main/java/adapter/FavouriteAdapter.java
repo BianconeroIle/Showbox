@@ -21,33 +21,44 @@ import model.Movie;
 public class FavouriteAdapter extends ArrayAdapter<Movie> {
     private Context context;
     private List<Movie> items;
-    ImageView itemImage;
-    TextView itemMovieTitle;
     private int layoutResource;
 
-    public FavouriteAdapter(Context context,int layoutResource, List<Movie> items) {
-        super(context ,layoutResource);
+    public FavouriteAdapter(Context context, int layoutResource, List<Movie> items) {
+        super(context, layoutResource,items);
         this.context = context;
-        this.layoutResource=layoutResource;
+        this.layoutResource = layoutResource;
         this.items = items;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            LayoutInflater li = LayoutInflater.from(context);
-            convertView = li.inflate(layoutResource, parent, false);
-            itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
-            itemMovieTitle = (TextView) convertView.findViewById(R.id.itemMovieTitle);
+        View row = convertView;
+        ViewHolder holder;
+        if (row == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            row = inflater.inflate(layoutResource, parent, false);
 
+            holder = new ViewHolder();
 
-            Picasso.with(context).load(items.get(position).getMoviePicture()).into(itemImage);
-            itemMovieTitle.setText(items.get(position).getTitle());
-
+            holder.itemImage = (ImageView) row.findViewById(R.id.itemImage);
+            holder.itemMovieTitle = (TextView) row.findViewById(R.id.itemMovieTitle);
+            row.setTag(holder);
+        } else {
+            holder = (ViewHolder) row.getTag();
         }
-
-        return convertView;
+        holder.itemMovieTitle.setText(items.get(position).getTitle());
+        Picasso.with(context).load(items.get(position).getMoviePicture()).into(holder.itemImage);
+        return row;
     }
 
+    static class ViewHolder {
+        TextView itemMovieTitle;
+        ImageView itemImage;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 }

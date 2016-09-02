@@ -58,4 +58,9 @@ public class GridViewAdapter extends ArrayAdapter<Movie> {
         TextView movieTitle;
         ImageView movieImage;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 }

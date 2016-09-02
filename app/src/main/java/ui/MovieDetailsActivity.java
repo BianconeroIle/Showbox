@@ -12,6 +12,11 @@ import android.widget.TextView;
 import com.showbox.showbox.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import adapter.FavouriteAdapter;
+import adapter.GridViewAdapter;
 import model.Movie;
 import util.AppUtils;
 
@@ -19,17 +24,16 @@ import util.AppUtils;
  * Created by Vlade Ilievski on 8/16/2016.
  */
 public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String REQUEST_FROM = "request_from";
+
+    public static final String FROM_LIBRARY = "library";
+    public static final String FROM_FAVORITES = "favorites";
+
     TextView titleMovie;
-    TextView director;
     ImageView imageMovieDetails;
-    TextView cast;
-    TextView producedBy;
     CheckBox favouriteStatus;
-    Boolean checked = true;
-    TextView description;
-    //int position=0;
     private Movie movie;
-    private int clickedPosition;
+    private int position;
     TextView rate;
     TextView directorNames;
     TextView actors;
@@ -51,8 +55,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         descritionMovie = (TextView) findViewById(R.id.descritionMovie);
         rating = (TextView) findViewById(R.id.rating);
 
-        clickedPosition = getIntent().getExtras().getInt("position");
-        movie = AppUtils.movies.get(clickedPosition);
+        position = getIntent().getExtras().getInt("position");
+        String requestFrom = getIntent().getExtras().getString("request_from");
+        if (requestFrom != null && requestFrom.equals(FROM_LIBRARY)) {
+            movie = AppUtils.movies.get(position);
+        } else if (requestFrom != null && requestFrom.equals(FROM_FAVORITES)) {
+            List<Movie> favMovies = new ArrayList<>(AppUtils.getFavourites());
+            movie = favMovies.get(position);
+        }
 
 
         titleMovie.setText(movie.getTitle());
@@ -65,15 +75,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         favouriteStatus.setOnClickListener(this);
 
 
-
         favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     AppUtils.addFavouriteMovie(movie);
-                }else{
+
+
+                } else {
                     AppUtils.removeFromFavourites(movie);
                 }
+
             }
         });
 
@@ -86,5 +98,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
 
     }
+
+
 }
 

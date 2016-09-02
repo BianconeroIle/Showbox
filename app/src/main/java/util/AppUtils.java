@@ -14,6 +14,7 @@ import model.User;
  * Created by Vlade Ilievski on 8/15/2016.
  */
 public class AppUtils {
+    public static final double LOGIN_EXPIRATION_TIME_MIN = 3600;
     public static final List<User> user = new ArrayList<>();
     public static final List<Movie> movies = new ArrayList<>();
     public static final Set<Movie> favourites=new HashSet<>();
@@ -37,6 +38,13 @@ public class AppUtils {
         movies.add(new Movie("The Next Three Days (2010)","Christopher Nolan","Christopher Nolan","Christopher Nolan",6.1,"Christopher Nolan","https://upload.wikimedia.org/wikipedia/en/b/bc/The_Next_Three_Days_Poster.jpg"));
 
 
+    }
+
+    public static Set<Movie> getFavourites() {
+        return favourites;
+    }
+    public static void addSavedFavoeriteMovies(List<Movie> savedMovies) {
+        movies.addAll(savedMovies);
     }
 
     public static void addFavouriteMovie(Movie movie){
