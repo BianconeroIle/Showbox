@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by Vlade Ilievski on 8/15/2016.
+ * Created by Ilija Angeleski on 8/15/2016.
  */
 public class User {
     private String username;

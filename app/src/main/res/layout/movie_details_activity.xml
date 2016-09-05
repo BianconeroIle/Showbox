@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="33dp"
         android:text="Movie Title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -21,63 +21,9 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/titleMovie"
         android:layout_marginTop="28dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@android:drawable/ic_menu_edit" />
 
-
-    <TextView
-        android:id="@+id/director"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageMovieDetails"
-        android:layout_marginTop="27dp"
-        android:text="Director:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/cast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/director"
-        android:layout_alignStart="@+id/director"
-        android:layout_below="@+id/director"
-        android:layout_marginTop="22dp"
-        android:text="Cast:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/producedBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cast"
-        android:layout_alignStart="@+id/cast"
-        android:layout_below="@+id/cast"
-        android:layout_marginTop="21dp"
-        android:text="Produced by:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-
-    <TextView
-        android:id="@+id/actors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/producedBy"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/producers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/producedBy"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <CheckBox
         android:id="@+id/favouriteStatus"
@@ -92,35 +38,25 @@
         android:checked="false" />
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/producedBy"
-        android:layout_marginTop="18dp"
-        android:text="Description:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_below="@+id/imageMovieDetails"
+        android:layout_marginTop="22dp"
+        android:text="Genre:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/descritionMovie"
+        android:id="@+id/genres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/description"
-        android:layout_alignLeft="@+id/producers"
-        android:layout_alignStart="@+id/producers"
+        android:layout_alignBottom="@+id/genre"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/directorNames"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/actors"
-        android:layout_alignStart="@+id/actors"
-        android:layout_alignTop="@+id/director"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/rate"
@@ -128,19 +64,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/description"
-        android:layout_marginTop="18dp"
-        android:text="Rate: "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_below="@+id/genre"
+        android:layout_marginTop="23dp"
+        android:text="Rate:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/rate"
-        android:layout_alignLeft="@+id/descritionMovie"
-        android:layout_alignStart="@+id/descritionMovie"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/rate"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/overView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rate"
+        android:layout_marginTop="22dp"
+        android:text="Overview:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/overViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/overView"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

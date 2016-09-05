@@ -18,16 +18,17 @@ import java.util.Set;
 
 import adapter.FavouriteAdapter;
 import model.Movie;
+import model.MovieDTO;
 import util.AppUtils;
 
 /**
- * Created by Vlade Ilievski on 8/18/2016.
+ * Created by Ilija Angeleski on 8/18/2016.
  */
 public class FavoriteActivity extends AppCompatActivity implements View.OnClickListener {
     ListView favouriteListView;
     TextView infoText;
     private FavouriteAdapter adapter;
-    Movie movie;
+    MovieDTO movie;
     //    private List<Movie> movies;
 
 
@@ -44,7 +45,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         infoText = (TextView) findViewById(R.id.infoText);
         favouriteListView = (ListView) findViewById(R.id.favouriteListView);
 
-        List<Movie> movie = new ArrayList<>(AppUtils.getFavourites());
+        List<MovieDTO> movie = new ArrayList<>(AppUtils.getFavourites());
         if (movie == null || movie.isEmpty()) {
             infoText.setText("You library is empty");
             favouriteListView.setVisibility(View.GONE);

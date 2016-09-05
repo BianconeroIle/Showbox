@@ -8,7 +8,7 @@ import android.os.Handler;
 import com.showbox.showbox.R;
 
 /**
- * Created by Vlade Ilievski on 8/15/2016.
+ * Created by Ilija Angeleski on 8/15/2016.
  */
 public class SplashScreen extends Activity {
     private static int SPLASH_TIME_OUT = 2000;

@@ -9,23 +9,34 @@ import java.io.Serializable;
  */
 public class Movie implements Serializable {
     private String Title;
+    private String ReleaseYear;
     private String Producer;
     private String Director;
     private String Actors;
     private double Rate;
     private String description;
     private String moviePicture;
+    private String Gerne;
 
-    public Movie(String title, String producer, String director, String actors, double rate, String description, String moviePicture) {
+    public Movie(String title, String producer, String director, String actors, double rate, String description, String moviePicture,String gerne,String releaseYear) {
         Title = title;
         Producer = producer;
         Director = director;
         Actors = actors;
         Rate = rate;
+        Gerne=gerne;
+        ReleaseYear=releaseYear;
         this.description = description;
         this.moviePicture = moviePicture;
     }
 
+    public String getReleaseYear() {return ReleaseYear;}
+
+    public void setReleaseYear(String releaseYear) {ReleaseYear = releaseYear;}
+
+    public String getGerne() {return Gerne;}
+
+    public void setGerne(String gerne) {Gerne = gerne;}
 
     public String getTitle() {return Title;}
 

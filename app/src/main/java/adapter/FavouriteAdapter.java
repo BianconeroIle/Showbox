@@ -13,18 +13,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import interfaces.MovieAPI;
 import model.Movie;
+import model.MovieDTO;
 
 /**
  * Created by Vlade Ilievski on 8/18/2016.
  */
-public class FavouriteAdapter extends ArrayAdapter<Movie> {
+public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
     private Context context;
-    private List<Movie> items;
+    private List<MovieDTO> items;
     private int layoutResource;
 
-    public FavouriteAdapter(Context context, int layoutResource, List<Movie> items) {
-        super(context, layoutResource,items);
+    public FavouriteAdapter(Context context, int layoutResource, List<MovieDTO> items) {
+        super(context, layoutResource, items);
         this.context = context;
         this.layoutResource = layoutResource;
         this.items = items;
@@ -48,7 +50,7 @@ public class FavouriteAdapter extends ArrayAdapter<Movie> {
             holder = (ViewHolder) row.getTag();
         }
         holder.itemMovieTitle.setText(items.get(position).getTitle());
-        Picasso.with(context).load(items.get(position).getMoviePicture()).into(holder.itemImage);
+        Picasso.with(context).load(MovieAPI.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.itemImage);
         return row;
     }
 

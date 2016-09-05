@@ -17,7 +17,11 @@ import java.util.List;
 
 import adapter.FavouriteAdapter;
 import adapter.GridViewAdapter;
+import interfaces.MovieAPI;
+import model.GenreDTO;
 import model.Movie;
+import model.MovieDTO;
+import util.AppPreference;
 import util.AppUtils;
 
 /**
@@ -32,46 +36,44 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     TextView titleMovie;
     ImageView imageMovieDetails;
     CheckBox favouriteStatus;
-    private Movie movie;
+    private MovieDTO movie;
     private int position;
-    TextView rate;
-    TextView directorNames;
-    TextView actors;
-    TextView producers;
-    TextView descritionMovie;
     TextView rating;
+    TextView releaseYear;
+    TextView genres;
+    TextView overViewDescription;
+    AppPreference preference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details_activity);
-
+        preference = new AppPreference(this);
         titleMovie = (TextView) findViewById(R.id.titleMovie);
         imageMovieDetails = (ImageView) findViewById(R.id.imageMovieDetails);
         favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
-        directorNames = (TextView) findViewById(R.id.directorNames);
-        actors = (TextView) findViewById(R.id.actors);
-        producers = (TextView) findViewById(R.id.producers);
-        descritionMovie = (TextView) findViewById(R.id.descritionMovie);
         rating = (TextView) findViewById(R.id.rating);
+        genres = (TextView) findViewById(R.id.genres);
+        overViewDescription=(TextView)findViewById(R.id.overViewDescription);
 
         position = getIntent().getExtras().getInt("position");
+
         String requestFrom = getIntent().getExtras().getString("request_from");
         if (requestFrom != null && requestFrom.equals(FROM_LIBRARY)) {
-            movie = AppUtils.movies.get(position);
+            //movie = AppUtils.movies.get(position);
+            movie = (MovieDTO) getIntent().getExtras().getSerializable("movie_object");
         } else if (requestFrom != null && requestFrom.equals(FROM_FAVORITES)) {
-            List<Movie> favMovies = new ArrayList<>(AppUtils.getFavourites());
+            List<MovieDTO> favMovies = new ArrayList<>(AppUtils.getFavourites());
             movie = favMovies.get(position);
         }
 
 
         titleMovie.setText(movie.getTitle());
-        directorNames.setText(movie.getDirector());
-        Picasso.with(this).load(movie.getMoviePicture()).into(imageMovieDetails);
-        actors.setText(movie.getActors());
-        producers.setText(movie.getProducer());
-        descritionMovie.setText(movie.getDescription());
-        rating.setText(movie.getRate() + "");
+        genres.setText(getMovieGenres());
+        overViewDescription.setText(movie.getOverview());
+        Picasso.with(this).load(MovieAPI.IMAGE_BASE_URL + movie.getPosterPath()).into(imageMovieDetails);
+
+        rating.setText(movie.getPopularity() + "");
         favouriteStatus.setOnClickListener(this);
 
 
@@ -90,7 +92,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         });
 
         favouriteStatus.setChecked(AppUtils.isMovieInFavourites(movie));
+    }
 
+    private String getMovieGenres() {
+        List<GenreDTO> genres = preference.getMovieGenres();
+        String movieGenres = "";
+        for (int i = 0; i < movie.getGenreIds().length; i++) {
+            int genreId = movie.getGenreIds()[i];
+            for (GenreDTO genre : genres) {
+                if (genre.getId() == genreId) {
+                    movieGenres += genre.getName() + ", ";
+                }
+            }
+        }
+        return movieGenres;
     }
 
 

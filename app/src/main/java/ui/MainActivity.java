@@ -15,10 +15,8 @@ import android.widget.Toast;
 import com.showbox.showbox.R;
 
 import java.util.Date;
-import java.util.List;
 
 import interfaces.MovieAPI;
-import model.MovieDTO;
 import model.ResponseMovieDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -64,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkBox = (CheckBox) findViewById(R.id.checkBox);
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.androidhive.info/")
+                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
         MovieAPI api = restAdapter.create(MovieAPI.class);
         Log.d("MainActivity", "trying to get movies from server");
-        api.getMovie(new Callback<List<MovieDTO>>() {
+        /*api.getMovie(new Callback<List<MovieDTO>>() {
             @Override
             public void success(List<MovieDTO> movies, Response response) {
                 Log.d("MainActivity", "success getting movies from server ");
@@ -82,6 +80,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void failure(RetrofitError error) {
                 Log.d("MainActivity", "error getting movies from server " + error);
+            }
+        });*/
+
+
+        api.getMostPopular(MovieAPI.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+            @Override
+            public void success(ResponseMovieDTO responseMovieDTO, Response response) {
+                Log.d("MainActivity", "success getting movies from server " + responseMovieDTO);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("MainActivity", "success getting movies from server ");
             }
         });
     }

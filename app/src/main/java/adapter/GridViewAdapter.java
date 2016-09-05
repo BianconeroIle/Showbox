@@ -14,18 +14,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import interfaces.MovieAPI;
 import model.Movie;
+import model.MovieDTO;
 
 /**
  * Created by Vlade Ilievski on 8/15/2016.
  */
-public class GridViewAdapter extends ArrayAdapter<Movie> {
+public class GridViewAdapter extends ArrayAdapter<MovieDTO> {
 
     private Context mContext;
     private int layoutResourceId;
-    private List<Movie> items;
+    private List<MovieDTO> items;
 
-    public GridViewAdapter(Context mContext, int layoutResourceId, List<Movie> items) {
+    public GridViewAdapter(Context mContext, int layoutResourceId, List<MovieDTO> items) {
         super(mContext, layoutResourceId, items);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
@@ -42,20 +44,20 @@ public class GridViewAdapter extends ArrayAdapter<Movie> {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             row = inflater.inflate(R.layout.library_movie_activity, parent, false);
             holder = new ViewHolder();
-            holder.movieTitle = (TextView) row.findViewById(R.id.movieTitle);
+            holder.titleMovie = (TextView) row.findViewById(R.id.movieTitle);
             holder.movieImage = (ImageView) row.findViewById(R.id.movieImage);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        holder.movieTitle.setText((items.get(position).getTitle()));
-        Picasso.with(mContext).load(items.get(position).getMoviePicture()).into(holder.movieImage);
+        holder.titleMovie.setText((items.get(position).getTitle()));
+        Picasso.with(mContext).load(MovieAPI.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.movieImage);
         return row;
     }
 
 
     static class ViewHolder {
-        TextView movieTitle;
+        TextView titleMovie;
         ImageView movieImage;
     }
 
