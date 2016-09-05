@@ -25,8 +25,7 @@ public interface MovieAPI {
     @GET("/json/movies.json")
     void getMovie(Callback<List<MovieDTO>> callback);
 
-    /*@GET("/json/movies.json")
-    ResponseMovieDTO getMovie();*/
+
 
 
    /* @GET("/watch")
