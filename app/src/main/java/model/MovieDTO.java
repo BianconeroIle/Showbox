@@ -21,7 +21,7 @@ public class MovieDTO implements Serializable {
 
     @SerializedName("genre_ids")
     private int[] genreIds;
-    private long id;
+    private int id;
 
     @SerializedName("original_title")
     private String originalTitle;
@@ -58,6 +58,14 @@ public class MovieDTO implements Serializable {
         return overview;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setOverview(String overview) {
         this.overview = overview;
     }
@@ -78,13 +86,7 @@ public class MovieDTO implements Serializable {
         this.genreIds = genreIds;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getOriginalTitle() {
         return originalTitle;

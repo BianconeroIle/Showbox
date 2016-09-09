@@ -1,5 +1,6 @@
 package util;
 
+import android.preference.Preference;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -19,15 +20,16 @@ public class AppUtils {
     public static final double LOGIN_EXPIRATION_TIME_MIN = 3600;
     public static final List<User> user = new ArrayList<>();
     public static final List<MovieDTO> movies = new ArrayList<>();
-    public static final Set<MovieDTO> favourites=new HashSet<>();
-    public static final List<Category> categories=new ArrayList<>();
-    static {
-        user.add(new User("ile", "ile123"));
-        user.add(new User("admin", "Admin"));
+    public static final Set<MovieDTO> favourites = new HashSet<>();
+    public static final List<Category> categories = new ArrayList<>();
 
-        categories.add(new Category(1,"Now Playing"));
-        categories.add(new Category(2,"Most Popular"));
-        categories.add(new Category(3,"Top Rated"));
+    static {
+        user.add(new User(User.APP_USER, "ile", "ile123"));
+        user.add(new User(User.APP_USER, "admin", "Admin"));
+
+        categories.add(new Category(1, "Now Playing"));
+        categories.add(new Category(2, "Most Popular"));
+        categories.add(new Category(3, "Top Rated"));
 
 
 //        movies.add(new Movie("Deadpool(2016)","Christopher Nolan","Christopher Nolan","Christopher Nolan",8.0,"Christopher Nolan","http://media.comicbook.com/2016/02/deadpool-caturday-header-168596.jpg"));
@@ -47,9 +49,11 @@ public class AppUtils {
 
     }
 
+
     public static Set<MovieDTO> getFavourites() {
         return favourites;
     }
+
     public static void addSavedFavoeriteMovies(List<MovieDTO> savedMovies) {
         movies.addAll(savedMovies);
     }
@@ -58,17 +62,33 @@ public class AppUtils {
         return categories;
     }
 
-    public static void addFavouriteMovie(MovieDTO movie){
+    public static void addFavouriteMovie(MovieDTO movie) {
         favourites.add(movie);
-        Log.d("AppUtils","addFavouriteMovie:"+favourites);
+        Log.d("AppUtils", "addFavouriteMovie:" + favourites);
     }
-    public static void removeFromFavourites(MovieDTO movie){
+
+    public static void removeFromFavourites(MovieDTO movie) {
         favourites.remove(movie);
-        Log.d("AppUtils","removeFromFavourites: "+favourites);
+        Log.d("AppUtils", "removeFromFavourites: " + favourites);
     }
 
     public static List<User> getUser() {
         return user;
+    }
+
+    public static void addMovie(MovieDTO movie, AppPreference preference) {
+        movies.add(movie);
+
+        if (preference != null) {
+            preference.savedMovies(getMovies());
+        }
+    }
+    public static void deleteMovie(MovieDTO movie, AppPreference preference){
+        movies.remove(movie);
+
+        if(preference !=null){
+            preference.savedMovies(getMovies());
+        }
     }
 
     public static List<MovieDTO> getMovies() {
@@ -84,7 +104,9 @@ public class AppUtils {
         return false;
     }
 
-    public static boolean isMovieInFavourites(MovieDTO movie){
+
+
+    public static boolean isMovieInFavourites(MovieDTO movie) {
         return favourites.contains(movie);
     }
 }

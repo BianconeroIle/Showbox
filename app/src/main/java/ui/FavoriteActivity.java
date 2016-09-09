@@ -19,6 +19,7 @@ import java.util.Set;
 import adapter.FavouriteAdapter;
 import model.Movie;
 import model.MovieDTO;
+import util.AppPreference;
 import util.AppUtils;
 
 /**
@@ -29,6 +30,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
     TextView infoText;
     private FavouriteAdapter adapter;
     MovieDTO movie;
+    AppPreference preference;
     //    private List<Movie> movies;
 
 
@@ -53,6 +55,8 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
+
+
         favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -70,6 +74,12 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         super.onResume();
         adapter = new FavouriteAdapter(this, R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavourites()));
         favouriteListView.setAdapter(adapter);
+        List<MovieDTO> movie = new ArrayList<>(AppUtils.getFavourites());
+        if (movie == null || movie.isEmpty()) {
+            infoText.setText("You library is empty");
+            favouriteListView.setVisibility(View.GONE);
+            infoText.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

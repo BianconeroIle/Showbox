@@ -16,6 +16,8 @@ import java.util.List;
 import interfaces.MovieAPI;
 import model.Movie;
 import model.MovieDTO;
+import util.AppPreference;
+import util.AppUtils;
 
 /**
  * Created by Vlade Ilievski on 8/18/2016.
@@ -24,16 +26,18 @@ public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
     private Context context;
     private List<MovieDTO> items;
     private int layoutResource;
-
+    AppPreference preference;
     public FavouriteAdapter(Context context, int layoutResource, List<MovieDTO> items) {
         super(context, layoutResource, items);
         this.context = context;
         this.layoutResource = layoutResource;
         this.items = items;
+        preference = new AppPreference(getContext());
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
 
         View row = convertView;
         ViewHolder holder;
@@ -46,13 +50,17 @@ public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
             holder.itemImage = (ImageView) row.findViewById(R.id.itemImage);
             holder.itemMovieTitle = (TextView) row.findViewById(R.id.itemMovieTitle);
             row.setTag(holder);
+
         } else {
             holder = (ViewHolder) row.getTag();
         }
         holder.itemMovieTitle.setText(items.get(position).getTitle());
         Picasso.with(context).load(MovieAPI.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.itemImage);
         return row;
+
+
     }
+
 
     static class ViewHolder {
         TextView itemMovieTitle;

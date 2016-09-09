@@ -16,6 +16,7 @@ import java.util.List;
 import model.GenreDTO;
 import model.Movie;
 import model.MovieDTO;
+import model.User;
 import ui.MainActivity;
 
 /**
@@ -44,12 +45,26 @@ public class AppPreference {
         editor.commit();
     }
 
-    public void saveFavoriteMovies(List<Movie> movies) {
+    public void savedMovies(List<MovieDTO> movies) {
         Log.d("AppPreferences", "saveMovie()");
         Gson gson = new Gson();
         editor.putString("app.favMovies", gson.toJson(movies));
         editor.commit();
     }
+    public List<MovieDTO> getSavedMovies() {
+        Log.d("AppPreferences", "getSavedMovies()");
+        Gson gson = new Gson();
+        String jsonString = sp.getString("app.movieGenres", "");
+        if (!"".equals(jsonString)) {
+            Type collectionType = new TypeToken<List<MovieDTO>>() {
+            }.getType();
+
+            List<MovieDTO> listObj = gson.fromJson(jsonString, collectionType);
+            return listObj;
+        }
+        return Collections.emptyList();
+    }
+
 
     public void saveMovieGenres(List<GenreDTO> genres) {
         Log.d("AppPreferences", "saveMovieGenres()");
@@ -121,5 +136,26 @@ public class AppPreference {
             return false;
         }
         return true;
+    }
+
+    public void saveFacebookUser(User user) {
+        Log.d("AppPreferences", "saveFacebookUser()");
+        Gson gson = new Gson();
+        editor.putString("app.facebookUser", gson.toJson(user));
+        editor.commit();
+    }
+
+    public User getFacebookUser() {
+        Log.d("AppPreferences", "getFacebookUser()");
+        Gson gson = new Gson();
+        String jsonString = sp.getString("app.facebookUser", "");
+        if (!"".equals(jsonString)) {
+            Type collectionType = new TypeToken<User>() {
+            }.getType();
+
+            User fbUser = gson.fromJson(jsonString, collectionType);
+            return fbUser;
+        }
+        return new User(User.APP_USER,"Guest", "guest123");
     }
 }

@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgroundgrey"
+    >
 
     <GridView
         android:id="@+id/gridView"
@@ -23,10 +25,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="@color/darkGray">
+        android:background="@color/lightGray">
 
         <Spinner
             android:id="@+id/spinner"
+            android:textColor="#FAFAFA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

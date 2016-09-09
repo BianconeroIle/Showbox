@@ -2,7 +2,9 @@ package ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -13,14 +15,19 @@ import com.showbox.showbox.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import adapter.FavouriteAdapter;
-import adapter.GridViewAdapter;
+import adapter.GalleryViewPagerAdapter;
 import interfaces.MovieAPI;
 import model.GenreDTO;
-import model.Movie;
 import model.MovieDTO;
+import model.MovieImageDTO;
+import model.ResponseMovieImagesDTO;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import util.AppPreference;
 import util.AppUtils;
 
@@ -32,17 +39,21 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public static final String FROM_LIBRARY = "library";
     public static final String FROM_FAVORITES = "favorites";
-
+    public static final String TAG = MovieDetailsActivity.class.getName();
     TextView titleMovie;
-    ImageView imageMovieDetails;
+    //ImageView imageMovieDetails;
     CheckBox favouriteStatus;
     private MovieDTO movie;
     private int position;
     TextView rating;
-    TextView releaseYear;
     TextView genres;
     TextView overViewDescription;
     AppPreference preference;
+    MovieAPI api;
+    List<String> images = new ArrayList<>();
+    GalleryViewPagerAdapter adapter;
+    ViewPager viewPager;
+    TextView releaseDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,11 +61,21 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.movie_details_activity);
         preference = new AppPreference(this);
         titleMovie = (TextView) findViewById(R.id.titleMovie);
-        imageMovieDetails = (ImageView) findViewById(R.id.imageMovieDetails);
+        //imageMovieDetails = (ImageView) findViewById(R.id.imageMovieDetails);
         favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
         rating = (TextView) findViewById(R.id.rating);
         genres = (TextView) findViewById(R.id.genres);
-        overViewDescription=(TextView)findViewById(R.id.overViewDescription);
+        overViewDescription = (TextView) findViewById(R.id.overViewDescription);
+        releaseDate=(TextView)findViewById(R.id.releaseDate);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(MovieAPI.class);
+
 
         position = getIntent().getExtras().getInt("position");
 
@@ -68,22 +89,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
 
+        images.add(movie.getPosterPath());
+        adapter = new GalleryViewPagerAdapter(this, images);
+
+        viewPager.setAdapter(adapter);
+
+        getMovieImages(movie);
+
         titleMovie.setText(movie.getTitle());
         genres.setText(getMovieGenres());
         overViewDescription.setText(movie.getOverview());
-        Picasso.with(this).load(MovieAPI.IMAGE_BASE_URL + movie.getPosterPath()).into(imageMovieDetails);
+        releaseDate.setText(movie.getReleaseDate());
+        //Picasso.with(this).load(MovieAPI.IMAGE_BASE_URL + movie.getPosterPath()).into(imageMovieDetails);
 
-        rating.setText(movie.getPopularity() + "");
+        rating.setText(movie.getVoteAverage() + "");
         favouriteStatus.setOnClickListener(this);
-
 
         favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     AppUtils.addFavouriteMovie(movie);
-
-
                 } else {
                     AppUtils.removeFromFavourites(movie);
                 }
@@ -92,6 +118,28 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         });
 
         favouriteStatus.setChecked(AppUtils.isMovieInFavourites(movie));
+    }
+
+    private void getMovieImages(MovieDTO movie) {
+        api.getMovieImages(MovieAPI.API_KEY, movie.getId(), new Callback<ResponseMovieImagesDTO>() {
+            @Override
+            public void success(ResponseMovieImagesDTO responseMovieImagesDTO, Response response) {
+                Log.d(TAG, "success getting images from server " + responseMovieImagesDTO);
+                getImagePaths(responseMovieImagesDTO);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "success getting images from server " + error);
+            }
+        });
+    }
+
+    private void getImagePaths(ResponseMovieImagesDTO res) {
+        for (MovieImageDTO img : res.getImages()) {
+            images.add(img.getFile_path());
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private String getMovieGenres() {

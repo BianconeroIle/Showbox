@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
@@ -25,6 +26,7 @@ import model.Category;
 import model.MovieDTO;
 import model.ResponseGenresDTO;
 import model.ResponseMovieDTO;
+import model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -94,6 +96,11 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
         getMovieGenres();
         getNowPlayingMovies();
+
+        User u = preference.getFacebookUser();
+        if (u.getUserType() == User.FACEBOOK_USER) {
+            Toast.makeText(this, "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void openSelectedSpinnerItem(Category c) {

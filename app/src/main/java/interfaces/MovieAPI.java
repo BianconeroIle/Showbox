@@ -4,10 +4,11 @@ import java.util.List;
 
 import model.MovieDTO;
 import model.ResponseGenresDTO;
+import model.MovieImageDTO;
 import model.ResponseMovieDTO;
+import model.ResponseMovieImagesDTO;
 import retrofit.Callback;
 import retrofit.http.GET;
-import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -20,7 +21,7 @@ public interface MovieAPI {
 
     String API_KEY = "112604bed3ac9ecbea0a53e9170ea2c0";
     String THEMOVIIEDB_URL = "http://api.themoviedb.org/3/";
-    String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/" + IMAGE_BASE_SIZE + "/";
+    String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/" + IMAGE_BASE_SIZE + "";
 
     @GET("/json/movies.json")
     void getMovie(Callback<List<MovieDTO>> callback);
@@ -32,7 +33,7 @@ public interface MovieAPI {
     void getYoutuneVideo(@Query("v") String v, Callback<Object> callback);*/
 
     @GET("/movie/{id}/images")
-    void getMovieImages(@Query("api_key") String apiKey, @Path("id") int id, Callback<ResponseMovieDTO> callback);
+    void getMovieImages(@Query("api_key") String apiKey, @Path("id") int id, Callback<ResponseMovieImagesDTO> callback);
 
     @GET("/genre/movie/list")
     void getMovieGenres(@Query("api_key") String apiKey, Callback<ResponseGenresDTO> callback);
