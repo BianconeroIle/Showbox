@@ -29,11 +29,10 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
     ListView favouriteListView;
     TextView infoText;
     private FavouriteAdapter adapter;
-    MovieDTO movie;
+
     AppPreference preference;
     //    private List<Movie> movies;
-
-
+    public static final String TAG=FavoriteActivity.class.getName();
     @Override
     protected void onStart() {
         super.onStart();

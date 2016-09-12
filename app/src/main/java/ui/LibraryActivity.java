@@ -1,11 +1,18 @@
 package ui;
 
+import android.app.ActionBar;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +20,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.CategorySpinnerAdapter;
@@ -41,27 +50,56 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
     public static final String TAG = LibraryActivity.class.getName();
     GridView gridView;
     ProgressBar progressBar;
+    TextView searchTxt;
     private GridViewAdapter gridViewAdapter;
     private AppPreference preference;
     private List<MovieDTO> movies;
     Spinner spinner;
     MovieAPI api;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.library_activity);
+        //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        initVariables();
+
+
+        initListeners();
+
+
+        getMovieGenres();
+        getNowPlayingMovies();
+
+        User u = preference.getFacebookUser();
+        if (u.getUserType() == User.FACEBOOK_USER) {
+            Toast.makeText(this, "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void initVariables() {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .build();
+
+        api = restAdapter.create(MovieAPI.class);
+
         gridView = (GridView) findViewById(R.id.gridView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         preference = new AppPreference(this);
 
-
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         spinner = (Spinner) findViewById(R.id.spinner);
+        searchTxt = (TextView) findViewById(R.id.searchTxt);
+
         CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(this, R.layout.item_category, AppUtils.getCategories());
         spinner.setAdapter(spinnerAdapter);
+    }
 
+    private void initListeners() {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -85,22 +123,6 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        api = restAdapter.create(MovieAPI.class);
-        Log.d(TAG, "trying to get movies from server");
-
-        getMovieGenres();
-        getNowPlayingMovies();
-
-        User u = preference.getFacebookUser();
-        if (u.getUserType() == User.FACEBOOK_USER) {
-            Toast.makeText(this, "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
-        }
     }
 
     private void openSelectedSpinnerItem(Category c) {
@@ -195,8 +217,65 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
 
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchMovies(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    private void searchMovies(String query) {
+        if (query != null && !query.equals("")) {
+            spinner.setVisibility(View.GONE);
+            searchTxt.setVisibility(View.VISIBLE);
+            searchTxt.setText("Search results for: " + query);
+            searchMovieFromServer(query);
+        } else {
+            spinner.setVisibility(View.VISIBLE);
+            searchTxt.setVisibility(View.GONE);
+            if (spinner.getSelectedItem() instanceof Category) {
+                Category c = (Category) spinner.getSelectedItem();
+                openSelectedSpinnerItem(c);
+            } else {
+                Toast.makeText(this, "Error casting selected item", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void searchMovieFromServer(String query) {
+        Log.d(TAG, "searchMovies=" + query);
+        progressBar.setVisibility(View.VISIBLE);
+        api.searchMovies(MovieAPI.API_KEY, query, 1, new Callback<ResponseMovieDTO>() {
+            @Override
+            public void success(ResponseMovieDTO responseMovieDTO, Response response) {
+                Log.d(TAG, "success search movies from server " + responseMovieDTO);
+                progressBar.setVisibility(View.GONE);
+                initMoviesList(responseMovieDTO);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "error search movies from server :" + error);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
 
@@ -206,6 +285,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.favourites:
                 startActivity(new Intent(this, FavoriteActivity.class));
                 return true;
+
         }
 
         return super.onOptionsItemSelected(item);

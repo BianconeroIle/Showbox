@@ -1,5 +1,6 @@
 package ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -155,11 +156,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
         return movieGenres;
     }
-
+    private void openFullImageActivity(){
+        Intent i = new Intent(MovieDetailsActivity.this,FullImageActivity.class);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.viewpager:
+                openFullImageActivity();
+                break;
+        }
     }
 
 

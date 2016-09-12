@@ -46,4 +46,8 @@ public interface MovieAPI {
 
     @GET("/movie/top_rated")
     void getTopRated(@Query("api_key") String apiKey, @Query("page") int page, Callback<ResponseMovieDTO> callback);
+
+
+    @GET("/search/movie")
+    void searchMovies(@Query("api_key") String apiKey,@Query("query") String query, @Query("page") int page, Callback<ResponseMovieDTO> callback);
 }

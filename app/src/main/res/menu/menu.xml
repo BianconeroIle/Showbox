@@ -5,13 +5,16 @@
     tool:context=".ui.LibraryActivity">
 
     <item
+        android:id="@+id/search"
+        android:icon="@drawable/search_menu"
+        android:title="Search for movie"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+    <item
         android:id="@+id/favourites"
         android:icon="@drawable/favourite_menu"
         android:title="Favourites"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/search_menu"
-        android:title="Search for movie"
-        app:showAsAction="always"/>
+
 </menu>

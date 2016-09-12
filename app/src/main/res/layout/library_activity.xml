@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/backgroundgrey"
-    >
+    android:orientation="vertical">
 
     <GridView
         android:id="@+id/gridView"
@@ -22,19 +21,28 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/lightGray">
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/spinner"
-            android:textColor="#FAFAFA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
-    </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:textColor="#FAFAFA" />
+
+        <TextView
+            android:id="@+id/searchTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search..."
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

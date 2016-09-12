@@ -52,4 +52,5 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category> implements Vi
     public void onClick(View view) {
 
     }
+
 }
