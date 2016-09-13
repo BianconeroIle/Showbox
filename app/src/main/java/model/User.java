@@ -90,4 +90,18 @@ public class User {
     public void setUserType(int userType) {
         this.userType = userType;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", fbImage='" + fbImage + '\'' +
+                ", fbId='" + fbId + '\'' +
+                ", userType=" + userType +
+                '}';
+    }
 }

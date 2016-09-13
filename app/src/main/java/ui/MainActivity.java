@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppEventsLogger.activateApp(this);
 
         preference = new AppPreference(this);
-        List<MovieDTO> savedMovies=preference.getSavedMovies();
+        List<MovieDTO> savedMovies = preference.getSavedMovies();
         if (!savedMovies.isEmpty()) {
             AppUtils.addSavedFavoeriteMovies(savedMovies);
         } else {
-            Toast.makeText(MainActivity.this,
-                    "Empty library!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this,
+//                    "Empty library!", Toast.LENGTH_LONG).show();
         }
 
         if (AppUtils.getFavourites().isEmpty()) {
@@ -172,15 +172,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             u.setFirstName(json.has("first_name") ? json.getString("first_name") : firstName);
                                             u.setLastName(json.has("last_name") ? json.getString("last_name") : lastName);
                                             u.setFbId(json.has("id") ? json.getString("id") : "");
-                                            u.setEmail(json.has("email") ? json.getString("email") : "empty");
-                                            u.setFbId("https://graph.facebook.com/" + u.getFbId() + "/picture?type=large");
+                                            u.setEmail(json.has("email") ? json.getString("email") : "");
+                                            u.setFbImage("https://graph.facebook.com/" + u.getFbId() + "/picture?type=large");
 
                                             preference.saveFacebookUser(u);
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                        openLibraryMoviesActivity();
+                                        openNavMainActivity();
                                     }
 
                                 }).executeAsync();
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 preference.setExpirationDate(new Date());
                 preference.setUsername(u);
             }
-            openLibraryMoviesActivity();
+            openNavMainActivity();
         } else {
             Toast.makeText(this, "The username or password you have entered is invalid.", Toast.LENGTH_LONG).show();
         }
@@ -237,6 +237,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openLibraryMoviesActivity() {
         Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void openNavMainActivity() {
+        Intent intent = new Intent(MainActivity.this, NavigationMainActivity.class);
         startActivity(intent);
         finish();
     }

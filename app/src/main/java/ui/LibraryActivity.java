@@ -1,21 +1,16 @@
 package ui;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -25,7 +20,6 @@ import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import adapter.CategorySpinnerAdapter;
@@ -57,7 +51,6 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
     Spinner spinner;
     MovieAPI api;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,19 +58,17 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         initVariables();
-
-
         initListeners();
 
 
         getMovieGenres();
         getNowPlayingMovies();
 
+
         User u = preference.getFacebookUser();
         if (u.getUserType() == User.FACEBOOK_USER) {
             Toast.makeText(this, "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void initVariables() {
@@ -98,6 +89,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(this, R.layout.item_category, AppUtils.getCategories());
         spinner.setAdapter(spinnerAdapter);
     }
+
 
     private void initListeners() {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -281,6 +273,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.favourites:
                 startActivity(new Intent(this, FavoriteActivity.class));
