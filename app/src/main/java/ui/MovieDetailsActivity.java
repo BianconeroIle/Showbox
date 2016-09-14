@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import adapter.GalleryViewPagerAdapter;
+import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.GenreDTO;
 import model.MovieDTO;
@@ -67,11 +68,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         rating = (TextView) findViewById(R.id.rating);
         genres = (TextView) findViewById(R.id.genres);
         overViewDescription = (TextView) findViewById(R.id.overViewDescription);
-        releaseDate=(TextView)findViewById(R.id.releaseDate);
+        releaseDate = (TextView) findViewById(R.id.releaseDate);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
+                .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
@@ -122,7 +123,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void getMovieImages(MovieDTO movie) {
-        api.getMovieImages(MovieAPI.API_KEY, movie.getId(), new Callback<ResponseMovieImagesDTO>() {
+        api.getMovieImages(ApiConstants.API_KEY, movie.getId(), new Callback<ResponseMovieImagesDTO>() {
             @Override
             public void success(ResponseMovieImagesDTO responseMovieImagesDTO, Response response) {
                 Log.d(TAG, "success getting images from server " + responseMovieImagesDTO);
@@ -156,15 +157,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
         return movieGenres;
     }
-    private void openFullImageActivity(){
-        Intent i = new Intent(MovieDetailsActivity.this,FullImageActivity.class);
+
+    private void openFullImageActivity() {
+        Intent i = new Intent(MovieDetailsActivity.this, FullImageActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.viewpager:
                 openFullImageActivity();
                 break;

@@ -17,6 +17,7 @@ import android.view.View;
 import com.showbox.showbox.R;
 
 import adapter.NavDrawerListAdapter;
+import ui.fragments.FavoriteFragment;
 import ui.fragments.MovieLibraryFragment;
 
 /**
@@ -106,6 +107,9 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
             case 2:
                 openMovieLibraryFragment();
                 break;
+            case 4:
+                openFavoriteFragment();
+                break;
         }
     }
 
@@ -116,6 +120,17 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         MovieLibraryFragment fragment = new MovieLibraryFragment();
         transaction.replace(R.id.container, fragment, MovieLibraryFragment.TAG);
+        transaction.commit();
+        mDrawerLayout.closeDrawers();
+    }
+
+    private void openFavoriteFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Favorite");
+        }
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+        FavoriteFragment fragment=new FavoriteFragment();
+        transaction.replace(R.id.container,fragment,FavoriteFragment.TAG);
         transaction.commit();
         mDrawerLayout.closeDrawers();
     }

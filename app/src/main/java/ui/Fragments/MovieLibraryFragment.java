@@ -27,6 +27,7 @@ import java.util.List;
 
 import adapter.CategorySpinnerAdapter;
 import adapter.GridViewAdapter;
+import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Category;
 import model.MovieDTO;
@@ -86,7 +87,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void initVariables(View v) {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
+                .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
@@ -146,7 +147,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getMostPopularMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getMostPopular(MovieAPI.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getMostPopular(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -164,7 +165,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getNowPlayingMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getNowPlaying(MovieAPI.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getNowPlaying(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -182,7 +183,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getTopRatedMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getTopRated(MovieAPI.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getTopRated(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -199,7 +200,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     }
 
     private void getMovieGenres() {
-        api.getMovieGenres(MovieAPI.API_KEY, new Callback<ResponseGenresDTO>() {
+        api.getMovieGenres(ApiConstants.API_KEY, new Callback<ResponseGenresDTO>() {
             @Override
             public void success(ResponseGenresDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -293,7 +294,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     private void searchMovieFromServer(String query) {
         Log.d(TAG, "searchMovies=" + query);
         progressBar.setVisibility(View.VISIBLE);
-        api.searchMovies(MovieAPI.API_KEY, query, 1, new Callback<ResponseMovieDTO>() {
+        api.searchMovies(ApiConstants.API_KEY, query, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success search movies from server " + responseMovieDTO);
@@ -309,17 +310,6 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         });
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.favourites:
-                startActivity(new Intent(getActivity(), FavoriteActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View view) {
