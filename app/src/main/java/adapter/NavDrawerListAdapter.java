@@ -24,12 +24,16 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
     private static final int TYPE_HEADER = 0;  // Declaring Variable to Understand which View is being worked on
     // IF the view under inflation and population is header or Item
     private static final int TYPE_ITEM = 1;
+    private OnNavigationDrawerChooseListener listener;
 
     private String mNavTitles[]; // String Array to store the passed titles Value from MainActivity.java
     private int mIcons[];       // Int Array to store the passed icons resource value from MainActivity.java
 
     AppPreference preference;
 
+    public interface OnNavigationDrawerChooseListener {
+        void onItemClick(int position, String title);
+    }
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
     // ViewHolder are used to to store the inflated views in order to recycle them
@@ -110,17 +114,25 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
     // Tells us item at which position is being constructed to be displayed and the holder id of the holder object tell us
     // which view type is being created 1 for item row
     @Override
-    public void onBindViewHolder(NavDrawerListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(NavDrawerListAdapter.ViewHolder holder, final int position) {
         if (holder.holderId == 1) {                              // as the list view is going to be called after the header view so we decrement the
             // position by 1 and pass it to the holder while setting the text and image
             holder.textView.setText(mNavTitles[position - 1]); // Setting the Text with the array of our Titles
             holder.imageView.setImageResource(mIcons[position - 1]);// Settimg the image with array of our icons
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        listener.onItemClick(position, mNavTitles[position - 1]);
+                    }
+                }
+            });
         } else {
             User u = preference.getFacebookUser();
             Log.d("NavDrawerListAdapter", u + "");
             Picasso.with(holder.profile.getContext()).load(u.getFbImage()).transform(new CircleTransform()).centerCrop().fit().placeholder(R.drawable.ic_logo).into(holder.profile);
             holder.name.setText(u.getFirstName() + " " + u.getLastName());
-            holder.email.setText(!u.getEmail().equals("")?u.getEmail():"");
+            holder.email.setText(!u.getEmail().equals("") ? u.getEmail() : "");
         }
     }
 
@@ -142,6 +154,10 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
 
     private boolean isPositionHeader(int position) {
         return position == 0;
+    }
+
+    public void setOnNavigationDrawerChooseListener(OnNavigationDrawerChooseListener listener) {
+        this.listener = listener;
     }
 }
  

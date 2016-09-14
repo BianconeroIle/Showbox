@@ -90,7 +90,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
 
-        images.add(movie.getPosterPath());
+        //images.add(movie.getPosterPath()); //SET ORIGINAL IMAGE AS FIRST
         adapter = new GalleryViewPagerAdapter(this, images);
 
         viewPager.setAdapter(adapter);

@@ -12,7 +12,6 @@ import com.showbox.showbox.R;
 import java.util.List;
 
 import model.Category;
-import model.MovieDTO;
 
 /**
  * Created by Vlade Ilievski on 9/5/2016.

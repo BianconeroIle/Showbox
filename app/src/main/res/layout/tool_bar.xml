@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/gray"
     android:elevation="4dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    >
 
 </android.support.v7.widget.Toolbar>

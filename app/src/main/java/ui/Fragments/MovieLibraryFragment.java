@@ -1,16 +1,19 @@
-package ui;
+package ui.fragments;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -34,14 +37,17 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import ui.FavoriteActivity;
+import ui.MovieDetailsActivity;
 import util.AppPreference;
 import util.AppUtils;
 
 /**
- * Created by Ilija Angeleski on 8/15/2016.
+ * Created by Vlade Ilievski on 9/14/2016.
  */
-public class LibraryActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = LibraryActivity.class.getName();
+public class MovieLibraryFragment extends Fragment implements View.OnClickListener {
+
+    public static final String TAG = MovieLibraryFragment.class.getName();
     GridView gridView;
     ProgressBar progressBar;
     TextView searchTxt;
@@ -52,12 +58,17 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
     MovieAPI api;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.library_activity);
-        //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        setHasOptionsMenu(true);
+    }
 
-        initVariables();
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.library_activity, container, false);
+
+        initVariables(v);
         initListeners();
 
 
@@ -65,13 +76,15 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         getNowPlayingMovies();
 
 
-        User u = preference.getFacebookUser();
-//        if (u.getUserType() == User.FACEBOOK_USER) {
-//            Toast.makeText(this, "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
-//        }
+       /* User u = preference.getFacebookUser();
+        if (u.getUserType() == User.FACEBOOK_USER) {
+            Toast.makeText(getContext(), "Welcome " + u.getFirstName() + " " + u.getLastName(), Toast.LENGTH_LONG).show();
+        }*/
+
+        return v;
     }
 
-    private void initVariables() {
+    private void initVariables(View v) {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -79,14 +92,14 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
         api = restAdapter.create(MovieAPI.class);
 
-        gridView = (GridView) findViewById(R.id.gridView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        preference = new AppPreference(this);
+        gridView = (GridView) v.findViewById(R.id.gridView);
+        progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        preference = new AppPreference(getContext());
 
-        spinner = (Spinner) findViewById(R.id.spinner);
-        searchTxt = (TextView) findViewById(R.id.searchTxt);
+        spinner = (Spinner) v.findViewById(R.id.spinner);
+        searchTxt = (TextView) v.findViewById(R.id.searchTxt);
 
-        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(this, R.layout.item_category, AppUtils.getCategories());
+        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(getContext(), R.layout.item_category, AppUtils.getCategories());
         spinner.setAdapter(spinnerAdapter);
     }
 
@@ -95,7 +108,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(LibraryActivity.this, MovieDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("movie_object", movies.get(position));
                 intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_LIBRARY);
@@ -202,11 +215,11 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initMoviesList(ResponseMovieDTO responseMovieDTO) {
         movies = responseMovieDTO.getMovies();
-        gridViewAdapter = new GridViewAdapter(this, R.layout.library_movie_activity, movies);
+        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.library_movie_activity, movies);
         gridView.setAdapter(gridViewAdapter);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
@@ -230,8 +243,34 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchMovies(newText);
+                return false;
+            }
+        });
+    }
 
     private void searchMovies(String query) {
         if (query != null && !query.equals("")) {
@@ -246,7 +285,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
                 Category c = (Category) spinner.getSelectedItem();
                 openSelectedSpinnerItem(c);
             } else {
-                Toast.makeText(this, "Error casting selected item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error casting selected item", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -273,12 +312,10 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.favourites:
-                startActivity(new Intent(this, FavoriteActivity.class));
+                startActivity(new Intent(getActivity(), FavoriteActivity.class));
                 return true;
-
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,12 +1,15 @@
 package ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +17,12 @@ import android.view.View;
 import com.showbox.showbox.R;
 
 import adapter.NavDrawerListAdapter;
+import ui.fragments.MovieLibraryFragment;
 
 /**
  * Created by Vlade Ilievski on 9/13/2016.
  */
-public class NavigationMainActivity extends AppCompatActivity {
+public class NavigationMainActivity extends AppCompatActivity implements NavDrawerListAdapter.OnNavigationDrawerChooseListener {
 
     //First We Declare Titles And Icons For Our Navigation mDrawerLayout List View
     //This Icons And Titles Are holded in an Array as you can see
@@ -36,7 +40,7 @@ public class NavigationMainActivity extends AppCompatActivity {
     private Toolbar toolbar;                              // Declaring the Toolbar Object
 
     RecyclerView mRecyclerView;                           // Declaring RecyclerView
-    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    NavDrawerListAdapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     DrawerLayout mDrawerLayout;                                  // Declaring DrawerLayout
 
@@ -62,6 +66,7 @@ public class NavigationMainActivity extends AppCompatActivity {
         mAdapter = new NavDrawerListAdapter(TITLES, ICONS, getApplicationContext());       // Creating the Adapter of NavDrawerListAdapter class(which we are going to see in a bit)
         // And passing the titles,icons,header view name, header view email,
         // and header view profile picture
+        mAdapter.setOnNavigationDrawerChooseListener(this);
 
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
 
@@ -95,24 +100,23 @@ public class NavigationMainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+    public void onItemClick(int position, String title) {
+        Log.d("NavigationMainActivity", "onItemClick pos=" + position + ", title=" + title);
+        switch (position) {
+            case 2:
+                openMovieLibraryFragment();
+                break;
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logoIcon) {
-            return true;
+    private void openMovieLibraryFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Movies");
         }
-
-        return super.onOptionsItemSelected(item);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        MovieLibraryFragment fragment = new MovieLibraryFragment();
+        transaction.replace(R.id.container, fragment, MovieLibraryFragment.TAG);
+        transaction.commit();
+        mDrawerLayout.closeDrawers();
     }
 }
