@@ -1,6 +1,5 @@
 package util;
 
-import android.preference.Preference;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import model.Category;
-import model.Movie;
 import model.MovieDTO;
+import model.TVDTO;
 import model.User;
 
 /**
@@ -21,15 +20,22 @@ public class AppUtils {
     public static final List<User> user = new ArrayList<>();
     public static final List<MovieDTO> movies = new ArrayList<>();
     public static final Set<MovieDTO> favourites = new HashSet<>();
-    public static final List<Category> categories = new ArrayList<>();
+    public static final List<Category> movieCategories = new ArrayList<>();
+    public static final List<Category> tvCategories = new ArrayList<>();
+    public static final List<TVDTO> tvshows= new ArrayList<>();
 
     static {
         user.add(new User(User.APP_USER, "ile", "ile123"));
         user.add(new User(User.APP_USER, "admin", "Admin"));
 
-        categories.add(new Category(1, "Now Playing"));
-        categories.add(new Category(2, "Most Popular"));
-        categories.add(new Category(3, "Top Rated"));
+        movieCategories.add(new Category(1, "Now Playing"));
+        movieCategories.add(new Category(2, "Most Popular"));
+        movieCategories.add(new Category(3, "Top Rated"));
+
+        tvCategories.add(new Category(1,"On Air Today"));
+        tvCategories.add(new Category(2,"Top Rated"));
+        tvCategories.add(new Category(3,"Popular TV Shows"));
+        //tvCategories.add(new Category(4,"Get Letest TV Shows"));
 
 
 //        movies.add(new Movie("Deadpool(2016)","Christopher Nolan","Christopher Nolan","Christopher Nolan",8.0,"Christopher Nolan","http://media.comicbook.com/2016/02/deadpool-caturday-header-168596.jpg"));
@@ -49,18 +55,19 @@ public class AppUtils {
 
     }
 
+    public static List<TVDTO> getTvshows() {
+        return tvshows;
+    }
 
     public static Set<MovieDTO> getFavourites() {
         return favourites;
     }
 
-    public static void addSavedFavoeriteMovies(List<MovieDTO> savedMovies) {
-        movies.addAll(savedMovies);
-    }
+    public static List<Category> getTvCategories() {return tvCategories;}
 
-    public static List<Category> getCategories() {
-        return categories;
-    }
+    public static void addSavedFavoeriteMovies(List<MovieDTO> savedMovies) {movies.addAll(savedMovies);}
+
+    public static List<Category> getMovieCategories() {return movieCategories;}
 
     public static void addFavouriteMovie(MovieDTO movie) {
         favourites.add(movie);

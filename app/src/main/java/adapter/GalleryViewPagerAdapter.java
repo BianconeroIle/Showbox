@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
+import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 
 /**
@@ -34,10 +35,10 @@ public class GalleryViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup collection, int position) {
         inflater = LayoutInflater.from(context);
         ImageView image = (ImageView) inflater.inflate(R.layout.slider_view_pager, collection, false);
-        Picasso.with(context).load(MovieAPI.IMAGE_BASE_URL + images.get(position))/*placeholder(R.drawable.ic_logo)*/.into(image);
+        Picasso.with(context).load(ApiConstants.IMAGE_BASE_URL + images.get(position))/*placeholder(R.drawable.ic_logo)*/.into(image);
 
         collection.addView(image);
-        Log.d("GalleryViewPagerAdapter", "image=" + MovieAPI.IMAGE_BASE_URL + images.get(position));
+        Log.d("GalleryViewPagerAdapter", "image=" + ApiConstants.IMAGE_BASE_URL + images.get(position));
         return image;
     }
 

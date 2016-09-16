@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -55,7 +54,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.library_activity);
+        setContentView(R.layout.library_layout);
         //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         initVariables();
@@ -87,7 +86,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         spinner = (Spinner) findViewById(R.id.spinner);
         searchTxt = (TextView) findViewById(R.id.searchTxt);
 
-        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(this, R.layout.item_category, AppUtils.getCategories());
+        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(this, R.layout.item_category, AppUtils.getMovieCategories());
         spinner.setAdapter(spinnerAdapter);
     }
 
@@ -203,7 +202,7 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initMoviesList(ResponseMovieDTO responseMovieDTO) {
         movies = responseMovieDTO.getMovies();
-        gridViewAdapter = new GridViewAdapter(this, R.layout.library_movie_activity, movies);
+        gridViewAdapter = new GridViewAdapter(this, R.layout.library_layout_item, movies);
         gridView.setAdapter(gridViewAdapter);
     }
 

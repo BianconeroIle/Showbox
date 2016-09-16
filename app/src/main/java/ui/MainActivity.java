@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Movie;
 import model.MovieDTO;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(MovieAPI.THEMOVIIEDB_URL)
+                .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });*/
 
 
-        api.getMostPopular(MovieAPI.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getMostPopular(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d("MainActivity", "success getting movies from server " + responseMovieDTO);

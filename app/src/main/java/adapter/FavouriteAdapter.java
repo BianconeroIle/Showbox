@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Movie;
 import model.MovieDTO;
@@ -55,7 +56,7 @@ public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
             holder = (ViewHolder) row.getTag();
         }
         holder.itemMovieTitle.setText(items.get(position).getTitle());
-        Picasso.with(context).load(MovieAPI.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.itemImage);
+        Picasso.with(context).load(ApiConstants.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.itemImage);
         return row;
 
 

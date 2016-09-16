@@ -14,34 +14,31 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 import interfaces.ApiConstants;
-import interfaces.MovieAPI;
-import model.MovieDTO;
+import model.TVDTO;
 
 /**
- * Created by Vlade Ilievski on 8/15/2016.
+ * Created by Vlade Ilievski on 9/15/2016.
  */
-public class GridViewAdapter extends ArrayAdapter<MovieDTO> {
-
-    private Context mContext;
+public class GridViewTVLibraryAdapter extends ArrayAdapter<TVDTO> {
+    private Context context;
     private int layoutResourceId;
-    private List<MovieDTO> items;
+    private List<TVDTO> items;
 
-    public GridViewAdapter(Context mContext, int layoutResourceId, List<MovieDTO> items) {
-        super(mContext, layoutResourceId, items);
+    public GridViewTVLibraryAdapter(Context context, int layoutResourceId, List<TVDTO> items) {
+        super(context, layoutResourceId, items);
         this.layoutResourceId = layoutResourceId;
-        this.mContext = mContext;
+        this.context = context;
         this.items = items;
     }
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder;
 
         if (row == null) {
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(R.layout.library_layout_item, parent, false);
             holder = new ViewHolder();
             holder.titleMovie = (TextView) row.findViewById(R.id.movieTitle);
@@ -50,8 +47,8 @@ public class GridViewAdapter extends ArrayAdapter<MovieDTO> {
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        holder.titleMovie.setText((items.get(position).getTitle()));
-        Picasso.with(mContext).load(ApiConstants.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.movieImage);
+        holder.titleMovie.setText((items.get(position).getName()));
+        Picasso.with(getContext()).load(ApiConstants.IMAGE_BASE_URL + items.get(position).getPoster_path()).into(holder.movieImage);
         return row;
     }
 
@@ -66,3 +63,4 @@ public class GridViewAdapter extends ArrayAdapter<MovieDTO> {
         super.notifyDataSetChanged();
     }
 }
+

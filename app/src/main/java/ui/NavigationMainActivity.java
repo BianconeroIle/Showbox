@@ -19,6 +19,7 @@ import com.showbox.showbox.R;
 import adapter.NavDrawerListAdapter;
 import ui.fragments.FavoriteFragment;
 import ui.fragments.MovieLibraryFragment;
+import ui.fragments.TVLibraryFragment;
 
 /**
  * Created by Vlade Ilievski on 9/13/2016.
@@ -107,6 +108,9 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
             case 2:
                 openMovieLibraryFragment();
                 break;
+            case 3:
+                openTVLibraryFragment();
+                break;
             case 4:
                 openFavoriteFragment();
                 break;
@@ -134,4 +138,16 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
         transaction.commit();
         mDrawerLayout.closeDrawers();
     }
+
+    private void openTVLibraryFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("TV Shows");
+        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        TVLibraryFragment fragment = new TVLibraryFragment();
+        transaction.replace(R.id.container, fragment, TVLibraryFragment.TAG);
+        transaction.commit();
+        mDrawerLayout.closeDrawers();
+    }
+
 }

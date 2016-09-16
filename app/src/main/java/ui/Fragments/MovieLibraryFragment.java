@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.CategorySpinnerAdapter;
@@ -33,15 +33,14 @@ import model.Category;
 import model.MovieDTO;
 import model.ResponseGenresDTO;
 import model.ResponseMovieDTO;
-import model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ui.FavoriteActivity;
 import ui.MovieDetailsActivity;
 import util.AppPreference;
 import util.AppUtils;
+import util.EndlessScrollListener;
 
 /**
  * Created by Vlade Ilievski on 9/14/2016.
@@ -54,9 +53,10 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     TextView searchTxt;
     private GridViewAdapter gridViewAdapter;
     private AppPreference preference;
-    private List<MovieDTO> movies;
+    private List<MovieDTO> movies = new ArrayList<>();
     Spinner spinner;
     MovieAPI api;
+    private int PAGE = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.library_activity, container, false);
+        View v = inflater.inflate(R.layout.library_layout, container, false);
 
         initVariables(v);
         initListeners();
@@ -86,6 +86,8 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     }
 
     private void initVariables(View v) {
+
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -100,8 +102,11 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         spinner = (Spinner) v.findViewById(R.id.spinner);
         searchTxt = (TextView) v.findViewById(R.id.searchTxt);
 
-        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(getContext(), R.layout.item_category, AppUtils.getCategories());
+        CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(getContext(), R.layout.item_category, AppUtils.getMovieCategories());
         spinner.setAdapter(spinnerAdapter);
+
+        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.library_layout_item, movies);
+        gridView.setAdapter(gridViewAdapter);
     }
 
 
@@ -120,6 +125,9 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                PAGE = 1;
+                movies.clear();
+                gridViewAdapter.notifyDataSetChanged();
                 Category c = (Category) adapterView.getAdapter().getItem(i);
                 openSelectedSpinnerItem(c);
             }
@@ -127,6 +135,18 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        gridView.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                Category c = (Category) spinner.getSelectedItem();
+                openSelectedSpinnerItem(c);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+                return true; // ONLY if more data is actually being loaded; false otherwise.
             }
         });
     }
@@ -147,7 +167,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getMostPopularMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getMostPopular(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getMostPopular(ApiConstants.API_KEY, PAGE, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -165,7 +185,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getNowPlayingMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getNowPlaying(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getNowPlaying(ApiConstants.API_KEY, PAGE, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -183,7 +203,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
     private void getTopRatedMovies() {
         progressBar.setVisibility(View.VISIBLE);
-        api.getTopRated(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
+        api.getTopRated(ApiConstants.API_KEY, PAGE, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting movies from server " + responseMovieDTO);
@@ -215,9 +235,10 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     }
 
     private void initMoviesList(ResponseMovieDTO responseMovieDTO) {
-        movies = responseMovieDTO.getMovies();
-        gridViewAdapter = new GridViewAdapter(getContext(), R.layout.library_movie_activity, movies);
-        gridView.setAdapter(gridViewAdapter);
+        PAGE++;
+        //movies = responseMovieDTO.getMovies();
+        movies.addAll(responseMovieDTO.getMovies());
+        gridViewAdapter.notifyDataSetChanged();
     }
 
     /*@Override
@@ -299,6 +320,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success search movies from server " + responseMovieDTO);
                 progressBar.setVisibility(View.GONE);
+                movies.clear();
                 initMoviesList(responseMovieDTO);
             }
 
