@@ -1,4 +1,4 @@
-package model;
+package model.Movie;
 
 /**
  * Created by Vlade Ilievski on 9/6/2016.

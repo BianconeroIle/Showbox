@@ -1,6 +1,4 @@
-package model;
-
-import android.widget.ImageView;
+package model.Movie;
 
 import java.io.Serializable;
 

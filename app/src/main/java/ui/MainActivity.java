@@ -1,14 +1,10 @@
 package ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -37,9 +33,8 @@ import java.util.List;
 
 import interfaces.ApiConstants;
 import interfaces.MovieAPI;
-import model.Movie;
-import model.MovieDTO;
-import model.ResponseMovieDTO;
+import model.Movie.MovieDTO;
+import model.Movie.ResponseMovieDTO;
 import model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -81,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (AppUtils.getFavourites().isEmpty()) {
-            /*List<model.Movie> favMovies = preference.getFavoriteMovies();
+            /*List<model.Movie.Movie> favMovies = preference.getFavoriteMovies();
             if(favMovies.isEmpty()){
               // TOAST !!!
             }*/

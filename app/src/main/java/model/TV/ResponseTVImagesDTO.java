@@ -1,18 +1,18 @@
-package model;
+package model.TV;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by Vlade Ilievski on 9/6/2016.
+ * Created by Vlade Ilievski on 9/19/2016.
  */
-public class ResponseMovieImagesDTO {
+public class ResponseTVImagesDTO {
 
     private long id;
 
     @SerializedName("backdrops")
-    private List<MovieImageDTO> images;
+    private List<TVImageDTO> images;
 
 
     public long getId() {
@@ -23,11 +23,11 @@ public class ResponseMovieImagesDTO {
         this.id = id;
     }
 
-    public List<MovieImageDTO> getImages() {
+    public List<TVImageDTO> getImages() {
         return images;
     }
 
-    public void setImages(List<MovieImageDTO> images) {
+    public void setImages(List<TVImageDTO> images) {
         this.images = images;
     }
 }

@@ -26,9 +26,9 @@ import adapter.GridViewAdapter;
 import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Category;
-import model.MovieDTO;
-import model.ResponseGenresDTO;
-import model.ResponseMovieDTO;
+import model.Movie.MovieDTO;
+import model.Movie.ResponseGenresDTO;
+import model.Movie.ResponseMovieDTO;
 import model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -95,10 +95,10 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(LibraryActivity.this, MovieDetailsActivity.class);
+                Intent intent = new Intent(LibraryActivity.this, LibraryDetailsActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("movie_object", movies.get(position));
-                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_LIBRARY);
+                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_LIBRARY);
                 startActivity(intent);
             }
         });

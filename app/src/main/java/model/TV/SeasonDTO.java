@@ -1,4 +1,4 @@
-package model;
+package model.TV;
 
 /**
  * Created by Vlade Ilievski on 9/14/2016.

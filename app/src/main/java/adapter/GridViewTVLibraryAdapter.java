@@ -16,7 +16,7 @@ import java.util.List;
 
 
 import interfaces.ApiConstants;
-import model.TVDTO;
+import model.TV.TVDTO;
 
 /**
  * Created by Vlade Ilievski on 9/15/2016.

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import model.Category;
-import model.MovieDTO;
-import model.TVDTO;
+import model.Movie.MovieDTO;
+import model.TV.TVDTO;
 import model.User;
 
 /**
@@ -35,7 +35,7 @@ public class AppUtils {
         tvCategories.add(new Category(1,"On Air Today"));
         tvCategories.add(new Category(2,"Top Rated"));
         tvCategories.add(new Category(3,"Popular TV Shows"));
-        //tvCategories.add(new Category(4,"Get Letest TV Shows"));
+        tvCategories.add(new Category(4,"Airing today"));
 
 
 //        movies.add(new Movie("Deadpool(2016)","Christopher Nolan","Christopher Nolan","Christopher Nolan",8.0,"Christopher Nolan","http://media.comicbook.com/2016/02/deadpool-caturday-header-168596.jpg"));

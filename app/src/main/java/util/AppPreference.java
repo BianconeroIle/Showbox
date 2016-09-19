@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import model.GenreDTO;
-import model.Movie;
-import model.MovieDTO;
+import model.Movie.GenreDTO;
+import model.Movie.Movie;
+import model.Movie.MovieDTO;
 import model.User;
 import ui.MainActivity;
 

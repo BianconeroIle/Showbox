@@ -1,4 +1,4 @@
-package model;
+package model.TV;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -42,7 +42,7 @@ public class ResponseTVDTO {
     @Override
     public String toString() {
         return "ResponseTVDTO{" +
-                "tvshows=" + tvshows +
+                "tvShow=" + tvshows +
                 ", name='" + name + '\'' +
                 ", profile_path='" + profile_path + '\'' +
                 '}';

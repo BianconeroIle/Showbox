@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imageTitle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:padding="4dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewpager"
+            android:text="Title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvTitle"
+            android:text="genres"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/overviewtv"
+        android:padding="3dp"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/rating"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+
+            android:src="@drawable/rating_star"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/rating_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8.3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/onAirFirstTime" />
+
+        <TextView
+            android:id="@+id/seasonsnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/rating"
+            android:layout_below="@+id/rating"
+            android:layout_marginTop="5dp"
+            android:text="5 Seasons"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/episodenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/seasonsnumber"
+            android:layout_below="@+id/seasonsnumber"
+            android:layout_marginTop="5dp"
+            android:text="12 episodes"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/onAirFirstTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First time on air"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/episodenumber" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/overviewtv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="5"
+        android:text="OverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverview"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/header"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

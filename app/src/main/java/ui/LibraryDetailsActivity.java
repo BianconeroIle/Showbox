@@ -9,23 +9,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.showbox.showbox.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import adapter.GalleryViewPagerAdapter;
 import interfaces.ApiConstants;
 import interfaces.MovieAPI;
-import model.GenreDTO;
-import model.MovieDTO;
-import model.MovieImageDTO;
-import model.ResponseMovieImagesDTO;
+import model.Movie.GenreDTO;
+import model.Movie.MovieDTO;
+import model.Movie.MovieImageDTO;
+import model.Movie.ResponseMovieImagesDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -36,12 +33,12 @@ import util.AppUtils;
 /**
  * Created by Vlade Ilievski on 8/16/2016.
  */
-public class MovieDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class LibraryDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String REQUEST_FROM = "request_from";
 
     public static final String FROM_LIBRARY = "library";
     public static final String FROM_FAVORITES = "favorites";
-    public static final String TAG = MovieDetailsActivity.class.getName();
+    public static final String TAG = LibraryDetailsActivity.class.getName();
     TextView titleMovie;
     //ImageView imageMovieDetails;
     CheckBox favouriteStatus;
@@ -159,7 +156,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void openFullImageActivity() {
-        Intent i = new Intent(MovieDetailsActivity.this, FullImageActivity.class);
+        Intent i = new Intent(LibraryDetailsActivity.this, FullImageActivity.class);
         startActivity(i);
         finish();
     }

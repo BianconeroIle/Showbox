@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FavouriteAdapter;
-import model.MovieDTO;
-import ui.MovieDetailsActivity;
-import util.AppPreference;
+import model.Movie.MovieDTO;
+import ui.LibraryDetailsActivity;
 import util.AppUtils;
 
 /**
@@ -64,9 +62,9 @@ public class FavoriteFragment extends Fragment {
         favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), LibraryDetailsActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_FAVORITES);
+                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_FAVORITES);
                 startActivity(intent);
             }
         });

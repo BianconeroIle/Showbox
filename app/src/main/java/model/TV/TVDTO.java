@@ -1,9 +1,11 @@
-package model;
+package model.TV;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import model.Movie.GenreDTO;
 
 /**
  * Created by Vlade Ilievski on 9/14/2016.
@@ -30,8 +32,8 @@ public class TVDTO implements Serializable {
     private int number_of_episodes;
     private int number_of_seasons;
 
-    @SerializedName("vote_average")
-    private double rating;
+
+    private double vote_average;
 
     private int vote_count;
 
@@ -59,11 +61,7 @@ public class TVDTO implements Serializable {
         this.id = id;
     }
 
-    public int[] getEpisode_run_time() {
-        return episode_run_time;
-    }
-
-    public void setEpisode_run_time(int[] episode_run_time) {
+    public void setEpisode_run_time(int[]  episode_run_time) {
         this.episode_run_time = episode_run_time;
     }
 
@@ -163,12 +161,12 @@ public class TVDTO implements Serializable {
         this.number_of_seasons = number_of_seasons;
     }
 
-    public double getRating() {
-        return rating;
+    public double getVote_average() {
+        return vote_average;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setVote_average(double vote_average) {
+        this.vote_average = vote_average;
     }
 
     public int getVote_count() {
@@ -185,7 +183,7 @@ public class TVDTO implements Serializable {
                 "firstAirDate='" + firstAirDate + '\'' +
                 ", genre=" + Arrays.toString(genre) +
                 ", id=" + id +
-                ", episode_run_time=" + Arrays.toString(episode_run_time) +
+                ", episode_run_time=" + (episode_run_time) +
                 ", name='" + name + '\'' +
                 ", original_language='" + original_language + '\'' +
                 ", original_name='" + original_name + '\'' +
@@ -198,7 +196,7 @@ public class TVDTO implements Serializable {
                 ", last_air_date='" + last_air_date + '\'' +
                 ", number_of_episodes=" + number_of_episodes +
                 ", number_of_seasons=" + number_of_seasons +
-                ", rating=" + rating +
+                ", rating=" + vote_average +
                 ", vote_count=" + vote_count +
                 '}';
     }

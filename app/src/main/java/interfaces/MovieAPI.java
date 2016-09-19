@@ -1,8 +1,8 @@
 package interfaces;
 
-import model.ResponseGenresDTO;
-import model.ResponseMovieDTO;
-import model.ResponseMovieImagesDTO;
+import model.Movie.ResponseGenresDTO;
+import model.Movie.ResponseMovieDTO;
+import model.Movie.ResponseMovieImagesDTO;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;

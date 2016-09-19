@@ -1,7 +1,8 @@
 package interfaces;
 
 
-import model.ResponseTVDTO;
+import model.TV.ResponseTVDTO;
+import model.TV.ResponseTVImagesDTO;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -12,8 +13,8 @@ import retrofit.http.Query;
  */
 public interface TVApi {
 
-//    @GET("/tv/{id}")
-//    void getTVShows(@Query("api_key") String apiKey,@Query("language") int id ,Callback<ResponseTVDTO> callback);
+    @GET("/tv/airing_today")
+    void airingToday(@Query("api_key") String apiKey, @Query("page") int page, Callback<ResponseTVDTO> callback);
 
     @GET("/tv/on_the_air")
     void onAirToday(@Query("api_key") String apiKey, @Query("page") int page, Callback<ResponseTVDTO> callback);
@@ -24,8 +25,13 @@ public interface TVApi {
     @GET("/tv/popular")
     void popularTVShows(@Query("api_key") String apiKey, @Query("page") int page, Callback<ResponseTVDTO> callback);
 
-    @GET("/tv/latest")
-    void getLatestTVShows(@Query("api_key") String apiKey,Callback<ResponseTVDTO> callback);
+    @GET("/tv/{tv_id}/videos")
+    void getVideos(@Query("api_key") String apiKey,@Path("tv_id") int tv_id,     Callback<ResponseTVDTO> callback);
+
+    @GET("/tv/{tv_id}/images")
+    void getTVImages(@Query("api_key") String apiKey,@Path("tv_id") int tv_id, Callback<ResponseTVImagesDTO> callback);
+
+
 
 
 }

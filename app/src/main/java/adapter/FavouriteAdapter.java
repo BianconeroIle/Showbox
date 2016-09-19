@@ -14,11 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import interfaces.ApiConstants;
-import interfaces.MovieAPI;
-import model.Movie;
-import model.MovieDTO;
+import model.Movie.MovieDTO;
 import util.AppPreference;
-import util.AppUtils;
 
 /**
  * Created by Vlade Ilievski on 8/18/2016.

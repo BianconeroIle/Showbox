@@ -34,7 +34,7 @@
             android:name="ui.LibraryActivity"
             android:configChanges="orientation" />
         <activity
-            android:name="ui.MovieDetailsActivity"
+            android:name="ui.LibraryDetailsActivity"
             android:configChanges="orientation" />
         <activity
             android:name="ui.FavoriteActivity"

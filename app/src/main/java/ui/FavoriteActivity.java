@@ -12,13 +12,10 @@ import android.widget.TextView;
 import com.showbox.showbox.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import adapter.FavouriteAdapter;
-import model.Movie;
-import model.MovieDTO;
+import model.Movie.MovieDTO;
 import util.AppPreference;
 import util.AppUtils;
 
@@ -59,9 +56,9 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(FavoriteActivity.this, MovieDetailsActivity.class);
+                Intent intent = new Intent(FavoriteActivity.this, LibraryDetailsActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_FAVORITES);
+                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_FAVORITES);
                 startActivity(intent);
             }
         });
