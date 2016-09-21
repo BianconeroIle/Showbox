@@ -33,6 +33,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import util.AppPreference;
 import util.AppUtils;
+import util.EndlessScrollListener;
 
 /**
  * Created by Vlade Ilievski on 9/15/2016.
@@ -98,6 +99,18 @@ public class TVLibraryFragment extends Fragment {
                 fragment.setArguments(b);
                 transaction.replace(R.id.container, fragment, TVDetailsFragment.TAG).addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        gridView.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                Category c = (Category) spinner.getSelectedItem();
+                openSelectedSpinnerItemFromTVShows(c);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+                return true; // ONLY if more data is actually being loaded; false otherwise.
             }
         });
 

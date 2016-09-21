@@ -12,7 +12,6 @@
         <item>@drawable/ic_movie</item>
         <item>@drawable/ic_tv</item>
         <item>@drawable/ic_favorite_white_36dp</item>
-
     </array>
     <string name="facebook_app_id">1771073359826125</string>
     <string name="desc_list_item_icon">Item Icon</string>

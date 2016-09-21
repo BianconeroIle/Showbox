@@ -65,6 +65,10 @@ public class TVDTO implements Serializable {
         this.episode_run_time = episode_run_time;
     }
 
+    public int[] getEpisode_run_time() {
+        return episode_run_time;
+    }
+
     public String getName() {
         return name;
     }

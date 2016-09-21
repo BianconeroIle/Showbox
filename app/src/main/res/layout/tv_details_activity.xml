@@ -1,112 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imageTitle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/gray">
 
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:padding="4dp">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/viewpager"
-            android:text="Title"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/genres"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvTitle"
-            android:text="genres"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/body"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/overviewtv"
-        android:padding="3dp"
-        android:layout_alignParentStart="true">
-
-        <ImageView
-            android:id="@+id/rating"
-            android:layout_width="35dp"
-            android:layout_height="25dp"
-
-            android:src="@drawable/rating_star"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:id="@+id/rating_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8.3"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textSize="22dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/onAirFirstTime" />
-
-        <TextView
-            android:id="@+id/seasonsnumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/rating"
-            android:layout_below="@+id/rating"
-            android:layout_marginTop="5dp"
-            android:text="5 Seasons"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/episodenumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/seasonsnumber"
-            android:layout_below="@+id/seasonsnumber"
-            android:layout_marginTop="5dp"
-            android:text="12 episodes"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/onAirFirstTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="First time on air"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_centerVertical="true"
-            android:layout_alignStart="@+id/episodenumber" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/overviewtv"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:text="OverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverview"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/header"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:padding="4dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/header"
+                android:orientation="horizontal"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:text="Title"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tvTitle"
+                    android:ellipsize="end"
+                    android:text="genres"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/episodeRunTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/genres"
+                    android:layout_alignParentEnd="true"
+                    android:text="49 mins"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/overviewtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/genres"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="7dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:text="OverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverview"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <RelativeLayout
+                    android:id="@+id/body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/overviewtv"
+                    android:gravity="center"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/rating_star" />
+
+                    <TextView
+                        android:id="@+id/rating_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/rating"
+                        android:text="8.3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black"
+                        android:textSize="22dp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/releasedateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/onAirFirstTime"
+                    android:layout_below="@+id/overviewtv"
+                    android:text="Release Date "
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/onAirFirstTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/seasonslayout"
+                    android:layout_alignEnd="@+id/overviewtv"
+                    android:text="First time on air"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <LinearLayout
+                    android:id="@+id/seasonslayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/body"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/seasonLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/seasonstextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Seasons  "
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        <TextView
+                            android:id="@+id/seasonsnumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/linearLayout"
+                            android:layout_centerHorizontal="true"
+                            android:text="5 Seasons"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/seasonLayout"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/episodesTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Episodes "
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        <TextView
+                            android:id="@+id/episodenumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/linearLayout"
+                            android:layout_toEndOf="@+id/body"
+                            android:text="12 episodes"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/details"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/similarTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Similar to this TV Show.."
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/similarTextView"
+                    android:orientation="horizontal"
+                    android:scrollbars="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/similarTextView"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
-</RelativeLayout>
+</LinearLayout>

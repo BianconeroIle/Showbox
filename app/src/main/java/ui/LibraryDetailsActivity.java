@@ -155,19 +155,9 @@ public class LibraryDetailsActivity extends AppCompatActivity implements View.On
         return movieGenres;
     }
 
-    private void openFullImageActivity() {
-        Intent i = new Intent(LibraryDetailsActivity.this, FullImageActivity.class);
-        startActivity(i);
-        finish();
-    }
-
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.viewpager:
-                openFullImageActivity();
-                break;
-        }
+
     }
 
 

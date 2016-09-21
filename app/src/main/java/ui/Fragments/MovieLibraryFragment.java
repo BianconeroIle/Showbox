@@ -33,6 +33,7 @@ import model.Category;
 import model.Movie.MovieDTO;
 import model.Movie.ResponseGenresDTO;
 import model.Movie.ResponseMovieDTO;
+import model.TV.ResponseTVGenresDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -233,6 +234,8 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
             }
         });
     }
+
+
 
     private void initMoviesList(ResponseMovieDTO responseMovieDTO) {
         PAGE++;

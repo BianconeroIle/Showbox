@@ -16,6 +16,7 @@ import java.util.List;
 import model.Movie.GenreDTO;
 import model.Movie.Movie;
 import model.Movie.MovieDTO;
+import model.TV.GenreTVDTO;
 import model.User;
 import ui.MainActivity;
 
@@ -70,6 +71,12 @@ public class AppPreference {
         Log.d("AppPreferences", "saveMovieGenres()");
         Gson gson = new Gson();
         editor.putString("app.movieGenres", gson.toJson(genres));
+        editor.commit();
+    }
+    public void saveTVGenres(List<GenreTVDTO> genres) {
+        Log.d("AppPreferences", "saveTVGenres()");
+        Gson gson = new Gson();
+        editor.putString("app.tvGenres", gson.toJson(genres));
         editor.commit();
     }
 
