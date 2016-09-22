@@ -1,13 +1,18 @@
 package ui.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
@@ -25,12 +31,15 @@ import adapter.GridViewTVLibraryAdapter;
 import interfaces.ApiConstants;
 import interfaces.TVApi;
 import model.Category;
+import model.Movie.ResponseMovieDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.TVDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import ui.MovieDetailsActivity;
+import ui.TVDetailsActivity;
 import util.AppPreference;
 import util.AppUtils;
 import util.EndlessScrollListener;
@@ -39,6 +48,7 @@ import util.EndlessScrollListener;
  * Created by Vlade Ilievski on 9/15/2016.
  */
 public class TVLibraryFragment extends Fragment {
+
     public static final String TAG = TVLibraryFragment.class.getName();
     GridView gridView;
     ProgressBar progressBar;
@@ -48,6 +58,7 @@ public class TVLibraryFragment extends Fragment {
     private List<TVDTO> tvshows;
     Spinner spinner;
     TVApi api;
+    private int PAGE = 1;
 
 
     @Override
@@ -91,16 +102,14 @@ public class TVLibraryFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Bundle b = new Bundle();
-                b.putSerializable("tv_dto", tvshows.get(position));
-
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                TVDetailsFragment fragment = new TVDetailsFragment();
-                fragment.setArguments(b);
-                transaction.replace(R.id.container, fragment, TVDetailsFragment.TAG).addToBackStack(null);
-                transaction.commit();
+                /*Intent intent = new Intent(getContext(), TVDetailsActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("tvshow_object", tvshows.get(position));
+                startActivity(intent);*/
+                TVDetailsActivity.openActivity(getActivity(),tvshows.get(position));
             }
         });
+
 
         gridView.setOnScrollListener(new EndlessScrollListener() {
             @Override
@@ -255,68 +264,73 @@ public class TVLibraryFragment extends Fragment {
             gridView.setAdapter(adapter);
         }
     }
+    private void initTVShowList(ResponseTVDTO responseTVDTO) {
+        PAGE++;
+        tvshows.addAll(responseTVDTO.getTvshow());
+        adapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        inflater.inflate(R.menu.menu, menu);
-//
-//        SearchManager searchManager =
-//                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView =
-//                (SearchView) menu.findItem(R.id.search).getActionView();
-//        searchView.setSearchableInfo(
-//                searchManager.getSearchableInfo(getActivity().getComponentName()));
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                searchMovies(newText);
-//                return false;
-//            }
-//        });
-//    }
-//
-//    private void searchMovies(String query) {
-//        if (query != null && !query.equals("")) {
-//            spinner.setVisibility(View.GONE);
-//            searchTxt.setVisibility(View.VISIBLE);
-//            searchTxt.setText("Search results for: " + query);
-//            searchMovieFromServer(query);
-//        } else {
-//            spinner.setVisibility(View.VISIBLE);
-//            searchTxt.setVisibility(View.GONE);
-//            if (spinner.getSelectedItem() instanceof Category) {
-//                Category c = (Category) spinner.getSelectedItem();
-//                openSelectedSpinnerItem(c);
-//            } else {
-//                Toast.makeText(getContext(), "Error casting selected item", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+        inflater.inflate(R.menu.menu, menu);
 
-//    private void searchMovieFromServer(String query) {
-//        Log.d(TAG, "searchMovies=" + query);
-//        progressBar.setVisibility(View.VISIBLE);
-//        api.searchMovies(ApiConstants.API_KEY, query, 1, new Callback<ResponseTVDTO>() {
-//            @Override
-//            public void success(ResponseTVDTO responeTVDTO, Response response) {
-//                Log.d(TAG, "success search movies from server " + responeTVDTO);
-//                progressBar.setVisibility(View.GONE);
-//                initMoviesList(responeTVDTO);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(TAG, "error search movies from server :" + error);
-//                progressBar.setVisibility(View.GONE);
-//            }
-//        });
-//    }
+        SearchManager searchManager =
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchTVShows(newText);
+                return false;
+            }
+        });
+    }
+
+    private void searchTVShows(String query) {
+        if (query != null && !query.equals("")) {
+            spinner.setVisibility(View.GONE);
+            searchTxt.setVisibility(View.VISIBLE);
+            searchTxt.setText("Search results for: " + query);
+            searchTVShowFromServer(query);
+        } else {
+            spinner.setVisibility(View.VISIBLE);
+            searchTxt.setVisibility(View.GONE);
+            if (spinner.getSelectedItem() instanceof Category) {
+                Category c = (Category) spinner.getSelectedItem();
+                openSelectedSpinnerItemFromTVShows(c);
+            } else {
+                Toast.makeText(getContext(), "Error casting selected item", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void searchTVShowFromServer(String query) {
+        Log.d(TAG, "searchTVShows=" + query);
+        progressBar.setVisibility(View.VISIBLE);
+        api.searchTVShow(ApiConstants.API_KEY, query, 1, new Callback<ResponseTVDTO>() {
+            @Override
+            public void success(ResponseTVDTO responseTVDTO, Response response) {
+                Log.d(TAG, "success search TV shows from server " + responseTVDTO);
+                progressBar.setVisibility(View.GONE);
+                tvshows.clear();
+                initTVShowList(responseTVDTO);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "error search TV shows from server :" + error);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 }

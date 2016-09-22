@@ -1,8 +1,6 @@
 package adapter;
 
-
 import android.content.Context;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +14,18 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import interfaces.ApiConstants;
+import model.Movie.MovieDTO;
 import model.TV.TVDTO;
-import ui.fragments.TVDetailsFragment;
 
 /**
- * Created by Vlade Ilievski on 9/21/2016.
+ * Created by Vlade Ilievski on 9/22/2016.
  */
-public class RecyclerViewAdapterTV extends RecyclerView.Adapter<RecyclerViewAdapterTV.CustomViewHolder> {
-    private List<TVDTO> items;
+public class RecyclerViewAdapterMovie extends RecyclerView.Adapter<RecyclerViewAdapterMovie.CustomViewHolder> {
+    private List<MovieDTO> items;
     private Context mContext;
     private int layoutResourceId;
 
-    public RecyclerViewAdapterTV(Context context,int layoutResourceId, List<TVDTO> items) {
+    public RecyclerViewAdapterMovie(Context context,int layoutResourceId, List<MovieDTO> items) {
         this.items = items;
         this.layoutResourceId=layoutResourceId;
         this.mContext = context;
@@ -35,7 +33,7 @@ public class RecyclerViewAdapterTV extends RecyclerView.Adapter<RecyclerViewAdap
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.library_layout_item, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.similar_layout_item, null);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
@@ -43,12 +41,12 @@ public class RecyclerViewAdapterTV extends RecyclerView.Adapter<RecyclerViewAdap
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        customViewHolder.movieTitle.setText((items.get(i).getName()));
-        Picasso.with(mContext).load(ApiConstants.IMAGE_BASE_URL + items.get(i).getPoster_path()).into(customViewHolder.movieImage);
+        customViewHolder.movieTitle.setText((items.get(i).getTitle()));
+        Picasso.with(mContext).load(ApiConstants.IMAGE_BASE_URL + items.get(i).getPosterPath()).into(customViewHolder.movieImage);
         customViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
 
             }
         });

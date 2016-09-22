@@ -56,9 +56,9 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(FavoriteActivity.this, LibraryDetailsActivity.class);
+                Intent intent = new Intent(FavoriteActivity.this, MovieDetailsActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_FAVORITES);
+                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_FAVORITES);
                 startActivity(intent);
             }
         });

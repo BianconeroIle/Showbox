@@ -1,17 +1,16 @@
-package ui.fragments;
+package ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import adapter.GalleryViewPagerAdapter;
 import adapter.SimilarRecyclerViewAdapter;
 import interfaces.ApiConstants;
 import interfaces.TVApi;
-
 import model.Movie.GenreDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.ResponseTVGenresDTO;
@@ -39,10 +37,11 @@ import retrofit.client.Response;
 import util.AppPreference;
 
 /**
- * Created by Vlade Ilievski on 9/16/2016.
+ * Created by Vlade Ilievski on 9/22/2016.
  */
-public class TVDetailsFragment extends Fragment {
-    public static final String TAG = TVDetailsFragment.class.getName();
+public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyclerViewAdapter.OnSimilarItemClickListener<TVDTO> {
+
+    public static final String TAG = TVDetailsActivity.class.getName();
     //VideoView video;
     public TVDTO tvShow = null;
     public TVDTO tvShowDetails = null;
@@ -70,27 +69,21 @@ public class TVDetailsFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle b = getArguments();
-        if (b.containsKey("tv_dto")) {
-            tvShow = (TVDTO) b.getSerializable("tv_dto");
+        setContentView(R.layout.tv_details_activity);
+
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().containsKey("tvshow_object")) {
+            tvShow = (TVDTO) getIntent().getExtras().getSerializable("tvshow_object");
+
         }
-        preference = new AppPreference(getActivity());
+        preference = new AppPreference(this);
 
-
+        initVariables();
+        initListeners();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tv_details_activity, container, false);
-        initVariables(v);
-
-        return v;
-    }
-
-    private void initVariables(View v) {
+    private void initVariables() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -99,25 +92,25 @@ public class TVDetailsFragment extends Fragment {
         api = restAdapter.create(TVApi.class);
 
         //video = (VideoView) v.findViewById(R.id.video);
-        viewpager = (ViewPager) v.findViewById(R.id.viewpager);
-        tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        genres = (TextView) v.findViewById(R.id.genres);
-        overviewtv = (TextView) v.findViewById(R.id.overviewtv);
-        rating_score = (TextView) v.findViewById(R.id.rating_score);
-        seasonsnumber = (TextView) v.findViewById(R.id.seasonsnumber);
-        episodenumber = (TextView) v.findViewById(R.id.episodenumber);
-        onAirFirstTime = (TextView) v.findViewById(R.id.onAirFirstTime);
-        episodeRunTime = (TextView) v.findViewById(R.id.episodeRunTime);
-        progress_bar = (ProgressBar) v.findViewById(R.id.progress_bar);
-        adapter = new GalleryViewPagerAdapter(getContext(), images);
-        recycler_view = (RecyclerView) v.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        genres = (TextView) findViewById(R.id.genres);
+        overviewtv = (TextView) findViewById(R.id.overviewtv);
+        rating_score = (TextView) findViewById(R.id.rating_score);
+        seasonsnumber = (TextView) findViewById(R.id.seasonsnumber);
+        episodenumber = (TextView) findViewById(R.id.episodenumber);
+        onAirFirstTime = (TextView) findViewById(R.id.onAirFirstTime);
+        episodeRunTime = (TextView) findViewById(R.id.episodeRunTime);
+        progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
+        adapter = new GalleryViewPagerAdapter(this, images);
+        recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 //        linearLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
 //        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        RecyclerView myList = (RecyclerView) v.findViewById(R.id.recycler_view);
+        RecyclerView myList = (RecyclerView) findViewById(R.id.recycler_view);
         myList.setLayoutManager(layoutManager);
 
         progress_bar.setVisibility(View.VISIBLE);
@@ -144,22 +137,7 @@ public class TVDetailsFragment extends Fragment {
     }
 
     private void initListeners() {
-        recycler_view.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return false;
-            }
 
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
 
     }
 
@@ -167,10 +145,19 @@ public class TVDetailsFragment extends Fragment {
     private void initTvDetails(TVDTO details) {
         seasonsnumber.setText(details.getNumber_of_seasons() + "");
         episodenumber.setText(details.getNumber_of_episodes() + "");
-        episodeRunTime.setText(details.getEpisode_run_time().toString());
+        episodeRunTime.setText(getEpisodesRuntime(details.getEpisode_run_time()));
 
         genres.setText(getGenres(details.getGenre()));
 
+    }
+
+    private String getEpisodesRuntime(int[] array) {
+        StringBuilder builder = new StringBuilder();
+        for (int time : array
+                ) {
+            builder.append(time + "min");
+        }
+        return builder.toString();
     }
 
     private String getGenres(GenreDTO[] genres) {
@@ -182,7 +169,7 @@ public class TVDetailsFragment extends Fragment {
     }
 
     private void initSimilar(List<TVDTO> similar) {
-        similarRecyclerViewAdapter = new SimilarRecyclerViewAdapter<TVDTO>(getContext(), R.layout.library_layout_item, similar, null);
+        similarRecyclerViewAdapter = new SimilarRecyclerViewAdapter<TVDTO>(this, R.layout.library_layout_item, similar, this);
         recycler_view.setAdapter(similarRecyclerViewAdapter);
     }
 
@@ -209,7 +196,6 @@ public class TVDetailsFragment extends Fragment {
             public void success(TVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting details from server " + responseTVDTO);
                 tvShowDetails = responseTVDTO;
-
                 initTvDetails(responseTVDTO);
             }
 
@@ -257,6 +243,16 @@ public class TVDetailsFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    public static void openActivity(Context context, TVDTO tvShow) {
+        Intent intent = new Intent(context, TVDetailsActivity.class);
+        intent.putExtra("tvshow_object", tvShow);
+        context.startActivity(intent);
+    }
 
+    @Override
+    public void onSimilarClick(TVDTO object) {
+        TVDetailsActivity.openActivity(this, object);
+    }
 }
+
 

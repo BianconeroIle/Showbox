@@ -34,10 +34,14 @@
             android:name="ui.LibraryActivity"
             android:configChanges="orientation" />
         <activity
-            android:name="ui.LibraryDetailsActivity"
+            android:name="ui.MovieDetailsActivity"
             android:configChanges="orientation" />
         <activity
             android:name="ui.FavoriteActivity"
+            android:configChanges="orientation" />
+
+        <activity
+            android:name="ui.TVDetailsActivity"
             android:configChanges="orientation" />
         <activity
             android:name="com.facebook.FacebookActivity"

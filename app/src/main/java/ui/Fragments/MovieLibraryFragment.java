@@ -33,12 +33,11 @@ import model.Category;
 import model.Movie.MovieDTO;
 import model.Movie.ResponseGenresDTO;
 import model.Movie.ResponseMovieDTO;
-import model.TV.ResponseTVGenresDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ui.LibraryDetailsActivity;
+import ui.MovieDetailsActivity;
 import util.AppPreference;
 import util.AppUtils;
 import util.EndlessScrollListener;
@@ -115,10 +114,10 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(getActivity(), LibraryDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("movie_object", movies.get(position));
-                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_LIBRARY);
+                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_LIBRARY);
                 startActivity(intent);
             }
         });

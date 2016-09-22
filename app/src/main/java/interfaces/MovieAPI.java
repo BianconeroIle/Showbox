@@ -3,6 +3,7 @@ package interfaces;
 import model.Movie.ResponseGenresDTO;
 import model.Movie.ResponseMovieDTO;
 import model.Movie.ResponseMovieImagesDTO;
+import model.TV.ResponseTVDTO;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -31,4 +32,7 @@ public interface MovieAPI {
 
     @GET("/search/movie")
     void searchMovies(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page, Callback<ResponseMovieDTO> callback);
+
+    @GET("/movie/{movie_id}/similar")
+    void getSimilarMovies(@Query("api_key") String apiKey, @Path("movie_id") int movie_id, Callback<ResponseMovieDTO> callback);
 }

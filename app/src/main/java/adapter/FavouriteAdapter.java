@@ -25,6 +25,7 @@ public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
     private List<MovieDTO> items;
     private int layoutResource;
     AppPreference preference;
+
     public FavouriteAdapter(Context context, int layoutResource, List<MovieDTO> items) {
         super(context, layoutResource, items);
         this.context = context;

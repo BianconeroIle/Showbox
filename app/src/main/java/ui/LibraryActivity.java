@@ -95,10 +95,10 @@ public class LibraryActivity extends AppCompatActivity implements View.OnClickLi
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(LibraryActivity.this, LibraryDetailsActivity.class);
+                Intent intent = new Intent(LibraryActivity.this, MovieDetailsActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("movie_object", movies.get(position));
-                intent.putExtra(LibraryDetailsActivity.REQUEST_FROM, LibraryDetailsActivity.FROM_LIBRARY);
+                intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_LIBRARY);
                 startActivity(intent);
             }
         });

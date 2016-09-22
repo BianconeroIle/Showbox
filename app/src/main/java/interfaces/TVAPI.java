@@ -1,6 +1,7 @@
 package interfaces;
 
 
+import model.Movie.ResponseMovieDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.ResponseTVGenresDTO;
 import model.TV.ResponseTVImagesDTO;
@@ -42,5 +43,8 @@ public interface TVApi {
 
     @GET("/tv/{tv_id}/similar")
     void getSimilarTVShow(@Query("api_key") String apiKey,@Path("tv_id") int tv_id , Callback<ResponseTVDTO> callback);
+
+    @GET("/search/tv")
+    void searchTVShow(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page, Callback<ResponseTVDTO> callback);
 
 }
