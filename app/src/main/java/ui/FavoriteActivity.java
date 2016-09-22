@@ -16,6 +16,7 @@ import java.util.List;
 
 import adapter.FavouriteAdapter;
 import model.Movie.MovieDTO;
+import model.TV.TVDTO;
 import util.AppPreference;
 import util.AppUtils;
 
@@ -44,7 +45,8 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         favouriteListView = (ListView) findViewById(R.id.favouriteListView);
 
         List<MovieDTO> movie = new ArrayList<>(AppUtils.getFavourites());
-        if (movie == null || movie.isEmpty()) {
+        List<TVDTO> tvshow = new ArrayList<>(AppUtils.getFavouritestvshow());
+        if (movie == null || movie.isEmpty() && tvshow==null || tvshow.isEmpty()) {
             infoText.setText("You library is empty");
             favouriteListView.setVisibility(View.GONE);
             infoText.setVisibility(View.VISIBLE);
@@ -68,7 +70,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        adapter = new FavouriteAdapter(this, R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavourites()));
+        adapter = new FavouriteAdapter(this, R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavourites()));      // ????????????????????
         favouriteListView.setAdapter(adapter);
         List<MovieDTO> movie = new ArrayList<>(AppUtils.getFavourites());
         if (movie == null || movie.isEmpty()) {

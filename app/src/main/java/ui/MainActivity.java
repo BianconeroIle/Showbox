@@ -35,6 +35,7 @@ import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Movie.MovieDTO;
 import model.Movie.ResponseMovieDTO;
+import model.TV.TVDTO;
 import model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -68,19 +69,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         preference = new AppPreference(this);
         List<MovieDTO> savedMovies = preference.getSavedMovies();
-        if (!savedMovies.isEmpty()) {
-            AppUtils.addSavedFavoeriteMovies(savedMovies);
+        List<TVDTO> savedTVShows=preference.getSavedTVShow();
+        if (!savedMovies.isEmpty() && !savedTVShows.isEmpty()) {
+            AppUtils.addSavedFavouriteMovies(savedMovies);
+            AppUtils.addSavedFavouriteTVShow(savedTVShows);
         } else {
 //            Toast.makeText(MainActivity.this,
 //                    "Empty library!", Toast.LENGTH_LONG).show();
         }
 
-        if (AppUtils.getFavourites().isEmpty()) {
+        if (AppUtils.getFavourites().isEmpty() && AppUtils.getFavouritestvshow().isEmpty()) {
             /*List<model.Movie.Movie> favMovies = preference.getFavoriteMovies();
             if(favMovies.isEmpty()){
               // TOAST !!!
             }*/
-            AppUtils.addSavedFavoeriteMovies(preference.getFavoriteMovies());
+            AppUtils.addSavedFavouriteMovies(preference.getFavoriteMovies());
+            AppUtils.addSavedFavouriteTVShow(preference.getFavoriteTVShow());
         }
 
 

@@ -23,6 +23,7 @@ public class AppUtils {
     public static final List<Category> movieCategories = new ArrayList<>();
     public static final List<Category> tvCategories = new ArrayList<>();
     public static final List<TVDTO> tvshows= new ArrayList<>();
+    public static final Set<TVDTO> favouritestvshow = new HashSet<>();
 
     static {
         user.add(new User(User.APP_USER, "ile", "ile123"));
@@ -55,6 +56,10 @@ public class AppUtils {
 
     }
 
+    public static Set<TVDTO> getFavouritestvshow() {
+        return favouritestvshow;
+    }
+
     public static List<TVDTO> getTvshows() {
         return tvshows;
     }
@@ -65,9 +70,20 @@ public class AppUtils {
 
     public static List<Category> getTvCategories() {return tvCategories;}
 
-    public static void addSavedFavoeriteMovies(List<MovieDTO> savedMovies) {movies.addAll(savedMovies);}
+    public static void addSavedFavouriteMovies(List<MovieDTO> savedMovies) {movies.addAll(savedMovies);}
 
     public static List<Category> getMovieCategories() {return movieCategories;}
+
+    public static void addSavedFavouriteTVShow(List<TVDTO> savedTVShow){tvshows.addAll(savedTVShow);}
+
+    public static void addFavouriteTvShow(TVDTO tvShow){
+        favouritestvshow.add(tvShow);
+        Log.d("AppUtils","addFavouriteTvShow"+favouritestvshow);
+    }
+    public static void removeFromFavouriteTvShow(TVDTO tvShow){
+        favouritestvshow.add(tvShow);
+        Log.d("AppUtils","removeFromFavouriteTvShow"+favouritestvshow);
+    }
 
     public static void addFavouriteMovie(MovieDTO movie) {
         favourites.add(movie);
@@ -97,6 +113,20 @@ public class AppUtils {
             preference.savedMovies(getMovies());
         }
     }
+    public static void addTVShow(TVDTO tvShow, AppPreference preference) {
+        tvshows.add(tvShow);
+
+        if (preference != null) {
+            preference.savedTVShow(getTvshows());
+        }
+    }
+    public static void deleteTVShow(TVDTO tvShow, AppPreference preference){
+        tvshows.remove(tvShow);
+
+        if(preference !=null){
+            preference.savedTVShow(getTvshows());
+        }
+    }
 
     public static List<MovieDTO> getMovies() {
         return movies;
@@ -115,5 +145,8 @@ public class AppUtils {
 
     public static boolean isMovieInFavourites(MovieDTO movie) {
         return favourites.contains(movie);
+    }
+    public static boolean isTVShowInFavourites(TVDTO tvShow){
+        return favouritestvshow.contains(tvShow);
     }
 }

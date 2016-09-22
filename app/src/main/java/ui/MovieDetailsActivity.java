@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.GalleryViewPagerAdapter;
-import adapter.RecyclerViewAdapterMovie;
 import adapter.SimilarRecyclerViewAdapter;
 import interfaces.ApiConstants;
 import interfaces.MovieAPI;
@@ -169,7 +168,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void getMovieImages(int id) {
-        api.getMovieImages(ApiConstants.API_KEY,id, new Callback<ResponseMovieImagesDTO>() {
+        api.getMovieImages(ApiConstants.API_KEY, id, new Callback<ResponseMovieImagesDTO>() {
             @Override
             public void success(ResponseMovieImagesDTO responseMovieImagesDTO, Response response) {
                 Log.d(TAG, "success getting images from server " + responseMovieImagesDTO);
@@ -199,6 +198,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 if (genre.getId() == genreId) {
                     movieGenres += genre.getName() + ", ";
                 }
+
             }
         }
         return movieGenres;
@@ -208,7 +208,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
 
     }
-    public static void openActivity(Context context,MovieDTO movie){
+
+    public static void openActivity(Context context, MovieDTO movie) {
         Intent intent = new Intent(context, MovieDetailsActivity.class);
         intent.putExtra("movie_object", movie);
         context.startActivity(intent);
@@ -216,7 +217,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onSimilarClick(MovieDTO object) {
-            MovieDetailsActivity.openActivity(this,object);
+        MovieDetailsActivity.openActivity(this, object);
     }
 }
 

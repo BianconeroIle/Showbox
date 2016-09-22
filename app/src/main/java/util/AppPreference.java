@@ -17,6 +17,7 @@ import model.Movie.GenreDTO;
 import model.Movie.Movie;
 import model.Movie.MovieDTO;
 import model.TV.GenreTVDTO;
+import model.TV.TVDTO;
 import model.User;
 import ui.MainActivity;
 
@@ -52,6 +53,7 @@ public class AppPreference {
         editor.putString("app.favMovies", gson.toJson(movies));
         editor.commit();
     }
+
     public List<MovieDTO> getSavedMovies() {
         Log.d("AppPreferences", "getSavedMovies()");
         Gson gson = new Gson();
@@ -66,6 +68,27 @@ public class AppPreference {
         return Collections.emptyList();
     }
 
+    public void savedTVShow(List<TVDTO> tvShow) {
+        Log.d("AppPreferences", "savedTVShow()");
+        Gson gson = new Gson();
+        editor.putString("app.favTvShows", gson.toJson(tvShow));
+        editor.commit();
+    }
+
+    public List<TVDTO> getSavedTVShow() {
+        Log.d("AppPreferences", "getSavedTVShow()");
+        Gson gson = new Gson();
+        String jsonString = sp.getString("app.movieGenres", "");
+        if (!"".equals(jsonString)) {
+            Type collectionType = new TypeToken<List<TVDTO>>() {
+            }.getType();
+
+            List<TVDTO> listObj = gson.fromJson(jsonString, collectionType);
+            return listObj;
+        }
+        return Collections.emptyList();
+    }
+
 
     public void saveMovieGenres(List<GenreDTO> genres) {
         Log.d("AppPreferences", "saveMovieGenres()");
@@ -73,6 +96,7 @@ public class AppPreference {
         editor.putString("app.movieGenres", gson.toJson(genres));
         editor.commit();
     }
+
     public void saveTVGenres(List<GenreTVDTO> genres) {
         Log.d("AppPreferences", "saveTVGenres()");
         Gson gson = new Gson();
@@ -103,6 +127,20 @@ public class AppPreference {
             }.getType();
 
             List<MovieDTO> listObj = gson.fromJson(jsonString, collectionType);
+            return listObj;
+        }
+        return Collections.emptyList();
+    }
+
+    public List<TVDTO> getFavoriteTVShow() {
+        Log.d("AppPreferences", "getFavoriteTVShow()");
+        Gson gson = new Gson();
+        String jsonString = sp.getString("app.favTvShows", "");
+        if (!"".equals(jsonString)) {
+            Type collectionType = new TypeToken<List<TVDTO>>() {
+            }.getType();
+
+            List<TVDTO> listObj = gson.fromJson(jsonString, collectionType);
             return listObj;
         }
         return Collections.emptyList();
@@ -163,6 +201,6 @@ public class AppPreference {
             User fbUser = gson.fromJson(jsonString, collectionType);
             return fbUser;
         }
-        return new User(User.APP_USER,"Guest", "guest123");
+        return new User(User.APP_USER, "Guest", "guest123");
     }
 }

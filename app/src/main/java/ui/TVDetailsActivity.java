@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import adapter.SimilarRecyclerViewAdapter;
 import interfaces.ApiConstants;
 import interfaces.TVApi;
 import model.Movie.GenreDTO;
+import model.Movie.MovieDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.ResponseTVGenresDTO;
 import model.TV.ResponseTVImagesDTO;
@@ -35,11 +38,12 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import util.AppPreference;
+import util.AppUtils;
 
 /**
  * Created by Vlade Ilievski on 9/22/2016.
  */
-public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyclerViewAdapter.OnSimilarItemClickListener<TVDTO> {
+public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyclerViewAdapter.OnSimilarItemClickListener<TVDTO>, View.OnClickListener {
 
     public static final String TAG = TVDetailsActivity.class.getName();
     //VideoView video;
@@ -66,6 +70,8 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     private RecyclerView recycler_view;
     ProgressBar progress_bar;
     private SimilarRecyclerViewAdapter similarRecyclerViewAdapter;
+    CheckBox favouriteStatus;
+    private int position;
 
 
     @Override
@@ -104,6 +110,18 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
         adapter = new GalleryViewPagerAdapter(this, images);
         recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
+        favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
+
+        position = getIntent().getExtras().getInt("position");
+
+        String requestFrom = getIntent().getExtras().getString("request_from");
+        if (requestFrom != null && requestFrom.equals("library")) {
+            tvShow = (TVDTO) getIntent().getExtras().getSerializable("tvshow_object");
+        } else if (requestFrom != null && requestFrom.equals("favorites")) {
+            List<TVDTO> favTVShows = new ArrayList<>(AppUtils.getFavouritestvshow());
+            tvShow = favTVShows.get(position);
+        }
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 //        linearLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
 //        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -133,6 +151,21 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
 
         onAirFirstTime.setText(tvShow.getFirstAirDate());
 
+
+        favouriteStatus.setOnClickListener(this);
+
+        favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    AppUtils.addFavouriteTvShow(tvShow);
+                } else {
+                    AppUtils.removeFromFavouriteTvShow(tvShow);
+                }
+
+            }
+        });
+        favouriteStatus.setChecked(AppUtils.isTVShowInFavourites(tvShow));
 
     }
 
@@ -178,6 +211,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting details from server " + responseTVDTO);
+                progress_bar.setVisibility(View.GONE);
                 simularTvShows = responseTVDTO.getTvshow();
                 initSimilar(responseTVDTO.getTvshow());
             }
@@ -185,6 +219,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "success getting details from server " + error);
+                progress_bar.setVisibility(View.GONE);
             }
         });
     }
@@ -252,6 +287,11 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     @Override
     public void onSimilarClick(TVDTO object) {
         TVDetailsActivity.openActivity(this, object);
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
 

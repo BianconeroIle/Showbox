@@ -15,18 +15,19 @@ import java.util.List;
 
 import interfaces.ApiConstants;
 import model.Movie.MovieDTO;
+import model.TV.TVDTO;
 import util.AppPreference;
 
 /**
  * Created by Vlade Ilievski on 8/18/2016.
  */
-public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
+public class FavouriteAdapter<T> extends ArrayAdapter {
     private Context context;
-    private List<MovieDTO> items;
+    private List<T> items;
     private int layoutResource;
     AppPreference preference;
 
-    public FavouriteAdapter(Context context, int layoutResource, List<MovieDTO> items) {
+    public FavouriteAdapter(Context context, int layoutResource, List<T> items) {
         super(context, layoutResource, items);
         this.context = context;
         this.layoutResource = layoutResource;
@@ -53,8 +54,27 @@ public class FavouriteAdapter extends ArrayAdapter<MovieDTO> {
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        holder.itemMovieTitle.setText(items.get(position).getTitle());
-        Picasso.with(context).load(ApiConstants.IMAGE_BASE_URL + items.get(position).getPosterPath()).into(holder.itemImage);
+
+        T object = items.get(position);
+
+        String title = "";
+        String imageUrl = "";
+
+        if (object instanceof MovieDTO) {
+
+            MovieDTO movie = (MovieDTO) object;
+            title = movie.getTitle();
+            imageUrl = movie.getPosterPath();
+
+        } else if (object instanceof TVDTO) {
+
+            TVDTO tvShow = (TVDTO) object;
+            title = tvShow.getName();
+            imageUrl = tvShow.getPoster_path();
+
+        }
+        holder.itemMovieTitle.setText(title);
+        Picasso.with(context).load(ApiConstants.IMAGE_BASE_URL + imageUrl).into(holder.itemImage);
         return row;
 
 
