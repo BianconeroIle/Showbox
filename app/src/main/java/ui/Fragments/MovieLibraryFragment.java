@@ -235,7 +235,6 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     }
 
 
-
     private void initMoviesList(ResponseMovieDTO responseMovieDTO) {
         PAGE++;
         //movies = responseMovieDTO.getMovies();

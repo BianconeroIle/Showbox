@@ -21,13 +21,13 @@ import util.AppPreference;
 /**
  * Created by Vlade Ilievski on 8/18/2016.
  */
-public class FavouriteAdapter<T> extends ArrayAdapter {
+public class FavouriteListViewAdapter<T> extends ArrayAdapter {
     private Context context;
     private List<T> items;
     private int layoutResource;
     AppPreference preference;
 
-    public FavouriteAdapter(Context context, int layoutResource, List<T> items) {
+    public FavouriteListViewAdapter(Context context, int layoutResource, List<T> items) {
         super(context, layoutResource, items);
         this.context = context;
         this.layoutResource = layoutResource;
