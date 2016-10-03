@@ -41,10 +41,10 @@ public interface TVApi {
     @GET("/genre/tv/list")
     void getTvGenres(@Query("api_key") String apiKey, Callback<ResponseTVGenresDTO> callback);
 
-    @GET("/tv/{tv_id}/similar")
-    void getSimilarTVShow(@Query("api_key") String apiKey,@Path("tv_id") int tv_id , Callback<ResponseTVDTO> callback);
-
     @GET("/search/tv")
     void searchTVShow(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page, Callback<ResponseTVDTO> callback);
+
+    @GET("/tv/{tv_id}/similar")
+    void getSimilarTVShow(@Query("api_key") String apiKey,@Path("tv_id") int tv_id , Callback<ResponseTVDTO> callback);
 
 }

@@ -86,7 +86,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         preference = new AppPreference(this);
 
         initVariables();
-        initListeners();
+
     }
 
     private void initVariables() {
@@ -169,10 +169,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
 
     }
 
-    private void initListeners() {
 
-
-    }
 
 
     private void initTvDetails(TVDTO details) {

@@ -119,6 +119,8 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
                 intent.putExtra("movie_object", movies.get(position));
                 intent.putExtra(MovieDetailsActivity.REQUEST_FROM, MovieDetailsActivity.FROM_LIBRARY);
                 startActivity(intent);
+              //  MovieDetailsActivity.openActivity(getActivity(),movies.get(position));
+
             }
         });
 
@@ -242,31 +244,6 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         gridViewAdapter.notifyDataSetChanged();
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchMovies(newText);
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

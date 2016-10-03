@@ -12,8 +12,19 @@ public class ResponseTVDTO {
     @SerializedName("results")
     List<TVDTO> tvshows;
 
+    @SerializedName("total_pages")
+    private int totalPages;
+
     private String name;
     private String profile_path;
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
 
     public List<TVDTO> getTvshow() {
         return tvshows;
@@ -42,7 +53,8 @@ public class ResponseTVDTO {
     @Override
     public String toString() {
         return "ResponseTVDTO{" +
-                "tvShow=" + tvshows +
+                "tvshows=" + tvshows +
+                ", totalPages=" + totalPages +
                 ", name='" + name + '\'' +
                 ", profile_path='" + profile_path + '\'' +
                 '}';

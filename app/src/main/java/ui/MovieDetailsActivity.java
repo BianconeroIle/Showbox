@@ -48,7 +48,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     TextView titleMovie;
     //ImageView imageMovieDetails;
     CheckBox favouriteStatus;
-    private MovieDTO movie;
+    private MovieDTO movie = null;
     private int position;
     private List<MovieDTO> similarMovies = null;
     TextView rating;
@@ -102,24 +102,35 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         position = getIntent().getExtras().getInt("position");
 
         String requestFrom = getIntent().getExtras().getString("request_from");
-        if (requestFrom != null && requestFrom.equals(FROM_LIBRARY)) {
-            //movie = AppUtils.movies.get(position);
-            movie = (MovieDTO) getIntent().getExtras().getSerializable("movie_object");
-        } else if (requestFrom != null && requestFrom.equals(FROM_FAVORITES)) {
+        if (requestFrom != null && requestFrom.equals(FROM_FAVORITES)) {
             List<MovieDTO> favMovies = new ArrayList<>(AppUtils.getFavourites());
             movie = favMovies.get(position);
+        } else {
+            movie = (MovieDTO) getIntent().getExtras().getSerializable("movie_object");
         }
 
 
         //images.add(movie.getPosterPath()); //SET ORIGINAL IMAGE AS FIRST
-        adapter = new GalleryViewPagerAdapter(this, images);
+        adapter = new
+
+                GalleryViewPagerAdapter(this, images);
 
         viewPager.setAdapter(adapter);
 
-        getMovieImages(movie.getId());
 
+        getMovieImages(movie.getId()
+
+        );
+
+        getMovieSimilar(movie.getId()
+
+        );
         titleMovie.setText(movie.getTitle());
-        genres.setText(getMovieGenres());
+        genres.setText(
+
+                getMovieGenres()
+
+        );
         overViewDescription.setText(movie.getOverview());
         releaseDate.setText(movie.getReleaseDate());
         //Picasso.with(this).load(MovieAPI.IMAGE_BASE_URL + movie.getPosterPath()).into(imageMovieDetails);
@@ -127,20 +138,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         rating.setText(movie.getVoteAverage() + "");
         favouriteStatus.setOnClickListener(this);
 
-        favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    AppUtils.addFavouriteMovie(movie);
-                } else {
-                    AppUtils.removeFromFavourites(movie);
-                }
+        favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 
-            }
-        });
+                                                   {
+                                                       @Override
+                                                       public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                                           if (b) {
+                                                               AppUtils.addFavouriteMovie(movie);
+                                                           } else {
+                                                               AppUtils.removeFromFavourites(movie);
+                                                           }
+
+                                                       }
+                                                   }
+
+        );
 
         favouriteStatus.setChecked(AppUtils.isMovieInFavourites(movie));
-        getMovieSimilar(movie.getId());
 
     }
 
