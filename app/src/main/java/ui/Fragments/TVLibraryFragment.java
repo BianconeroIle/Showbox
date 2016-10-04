@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -24,6 +22,7 @@ import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.CategorySpinnerAdapter;
@@ -31,14 +30,12 @@ import adapter.GridViewTVLibraryAdapter;
 import interfaces.ApiConstants;
 import interfaces.TVApi;
 import model.Category;
-import model.Movie.ResponseMovieDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.TVDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ui.MovieDetailsActivity;
 import ui.TVDetailsActivity;
 import util.AppPreference;
 import util.AppUtils;
@@ -55,10 +52,11 @@ public class TVLibraryFragment extends Fragment {
     TextView searchTxt;
     private GridViewTVLibraryAdapter adapter;
     private AppPreference preference;
-    private List<TVDTO> tvshows;
+    private List<TVDTO> tvshows = new ArrayList<>();
     Spinner spinner;
     TVApi api;
     private int PAGE = 1;
+    private String searchedString="";
 
 
     @Override
@@ -96,17 +94,20 @@ public class TVLibraryFragment extends Fragment {
 
         CategorySpinnerAdapter spinnerAdapter = new CategorySpinnerAdapter(getContext(), R.layout.item_category, AppUtils.getTvCategories());
         spinner.setAdapter(spinnerAdapter);
+
+        adapter = new GridViewTVLibraryAdapter(getContext(), R.layout.library_layout_item, tvshows);
+        gridView.setAdapter(adapter);
     }
 
     private void initListeners() {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                /*Intent intent = new Intent(getContext(), TVDetailsActivity.class);
+                Intent intent = new Intent(getContext(), TVDetailsActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("tvshow_object", tvshows.get(position));
-                startActivity(intent);*/
-                TVDetailsActivity.openActivity(getActivity(),tvshows.get(position));
+                startActivity(intent);
+//                TVDetailsActivity.openActivity(getActivity(),tvshows.get(position));
             }
         });
 
@@ -116,8 +117,12 @@ public class TVLibraryFragment extends Fragment {
             public boolean onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to your AdapterView
-                Category c = (Category) spinner.getSelectedItem();
-                openSelectedSpinnerItemFromTVShows(c);
+                if(searchedString!=null && !searchedString.equals("")){
+                    searchTVShows(searchedString);
+                }else{
+                    Category c = (Category) spinner.getSelectedItem();
+                    openSelectedSpinnerItemFromTVShows(c);
+                }
                 // or customLoadMoreDataFromApi(totalItemsCount);
                 return true; // ONLY if more data is actually being loaded; false otherwise.
             }
@@ -126,6 +131,9 @@ public class TVLibraryFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                PAGE = 1;
+                tvshows.clear();
+                adapter.notifyDataSetChanged();
                 Category c = (Category) adapterView.getAdapter().getItem(i);
                 openSelectedSpinnerItemFromTVShows(c);
             }
@@ -163,7 +171,6 @@ public class TVLibraryFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 initTVShowsList(responseTVDTO);
             }
-
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "failure getting latest tv shows from server :" + error);
@@ -175,12 +182,12 @@ public class TVLibraryFragment extends Fragment {
 
     private void airingToday() {
         progressBar.setVisibility(View.VISIBLE);
-        api.airingToday(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
+        api.airingToday(ApiConstants.API_KEY, PAGE, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting get tv shows from server " + responseTVDTO);
                 progressBar.setVisibility(View.GONE);
-                initTVShowsList(responseTVDTO);
+                initTVShowList(responseTVDTO);
             }
 
             @Override
@@ -193,12 +200,12 @@ public class TVLibraryFragment extends Fragment {
 
     private void onAirToday() {
         progressBar.setVisibility(View.VISIBLE);
-        api.onAirToday(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
+        api.onAirToday(ApiConstants.API_KEY, PAGE, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting on air today tv from server " + responseTVDTO);
                 progressBar.setVisibility(View.GONE);
-                initTVShowsList(responseTVDTO);
+                initTVShowList(responseTVDTO);
             }
 
             @Override
@@ -211,12 +218,12 @@ public class TVLibraryFragment extends Fragment {
 
     private void topRated() {
         progressBar.setVisibility(View.VISIBLE);
-        api.topRated(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
+        api.topRated(ApiConstants.API_KEY, PAGE, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting top rated tv from server " + responseTVDTO);
                 progressBar.setVisibility(View.GONE);
-                initTVShowsList(responseTVDTO);
+                initTVShowList(responseTVDTO);
             }
 
             @Override
@@ -228,11 +235,11 @@ public class TVLibraryFragment extends Fragment {
     }
 
     private void popularTVShows() {
-        api.popularTVShows(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
+        api.popularTVShows(ApiConstants.API_KEY, PAGE, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting popular movies from server " + responseTVDTO);
-                initTVShowsList(responseTVDTO);
+                initTVShowList(responseTVDTO);
             }
 
             @Override
@@ -242,28 +249,23 @@ public class TVLibraryFragment extends Fragment {
         });
     }
 
-    private void getVideos() {
-        api.popularTVShows(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
-            @Override
-            public void success(ResponseTVDTO responseTVDTO, Response response) {
-                Log.d(TAG, "success getting popular movies from server " + responseTVDTO);
-                initTVShowsList(responseTVDTO);
-            }
+//    private void getVideos() {
+//        api.popularTVShows(ApiConstants.API_KEY, 1, new Callback<ResponseTVDTO>() {
+//            @Override
+//            public void success(ResponseTVDTO responseTVDTO, Response response) {
+//                Log.d(TAG, "success getting popular movies from server " + responseTVDTO);
+//                initTVShowsList(responseTVDTO);
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Log.d(TAG, "failure getting popular movies tv from server " + error);
+//            }
+//        });
+//    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(TAG, "failure getting popular movies tv from server " + error);
-            }
-        });
-    }
 
-    private void initTVShowsList(ResponseTVDTO responseTVDTO) {
-        tvshows = responseTVDTO.getTvshow();
-        if (responseTVDTO.getTvshow() != null) {
-            adapter = new GridViewTVLibraryAdapter(getContext(), R.layout.library_layout_item, tvshows);
-            gridView.setAdapter(adapter);
-        }
-    }
+
     private void initTVShowList(ResponseTVDTO responseTVDTO) {
         PAGE++;
         tvshows.addAll(responseTVDTO.getTvshow());
@@ -317,7 +319,7 @@ public class TVLibraryFragment extends Fragment {
     private void searchTVShowFromServer(String query) {
         Log.d(TAG, "searchTVShows=" + query);
         progressBar.setVisibility(View.VISIBLE);
-        api.searchTVShow(ApiConstants.API_KEY, query, 1, new Callback<ResponseTVDTO>() {
+        api.searchTVShow(ApiConstants.API_KEY, query, PAGE, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success search TV shows from server " + responseTVDTO);

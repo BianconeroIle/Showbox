@@ -57,6 +57,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     Spinner spinner;
     MovieAPI api;
     private int PAGE = 1;
+    private String searchedString="";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,8 +146,12 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
             public boolean onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to your AdapterView
-                Category c = (Category) spinner.getSelectedItem();
-                openSelectedSpinnerItem(c);
+                if(searchedString!=null && !searchedString.equals("")){
+                    searchMovies(searchedString);
+                }else{
+                    Category c = (Category) spinner.getSelectedItem();
+                    openSelectedSpinnerItem(c);
+                }
                 // or customLoadMoreDataFromApi(totalItemsCount);
                 return true; // ONLY if more data is actually being loaded; false otherwise.
             }
@@ -266,6 +271,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                PAGE = 1;
                 searchMovies(newText);
                 return false;
             }
@@ -273,6 +279,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
     }
 
     private void searchMovies(String query) {
+        searchedString = query;
         if (query != null && !query.equals("")) {
             spinner.setVisibility(View.GONE);
             searchTxt.setVisibility(View.VISIBLE);

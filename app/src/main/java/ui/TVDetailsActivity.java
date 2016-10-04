@@ -19,7 +19,10 @@ import android.widget.TextView;
 
 import com.showbox.showbox.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import adapter.GalleryViewPagerAdapter;
@@ -149,7 +152,13 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         overviewtv.setText((tvShow.getOverview()));
         rating_score.setText((tvShow.getVote_average() + ""));
 
-        onAirFirstTime.setText(tvShow.getFirstAirDate());
+        //onAirFirstTime.setText(tvShow.getFirstAirDate());
+        try {
+            onAirFirstTime.setText(formatReleaseDate(tvShow.getFirstAirDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            onAirFirstTime.setText(tvShow.getFirstAirDate());
+        }
 
 
         favouriteStatus.setOnClickListener(this);
@@ -179,6 +188,11 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
 
         genres.setText(getGenres(details.getGenre()));
 
+    }
+    private String formatReleaseDate(String movieReleaseServerDate) throws ParseException {
+        Date releaseServerDate;
+        releaseServerDate = new SimpleDateFormat("yyyy-MM-dd").parse(movieReleaseServerDate);
+        return new SimpleDateFormat("d MMM yyyy").format(releaseServerDate);
     }
 
     private String getEpisodesRuntime(int[] array) {

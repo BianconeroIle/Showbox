@@ -43,22 +43,17 @@ public class FavoriteFragment extends Fragment {
     public static final String TAG=FavoriteFragment.class.getName();
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        Bundle data = getArguments();
-        mCurrentPage = data.getInt("current_page", 0);
-
-        FragmentManager fm = getChildFragmentManager();
-
-        pagerAdapter=new FavouriteViewPagerAdapter(fm);
-        pager.setAdapter(pagerAdapter);
-
-
-
-    }
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setHasOptionsMenu(true);
+//
+//        Bundle data = getArguments();
+//        mCurrentPage = data.getInt("current_page", 0);
+//
+//
+//
+//    }
 
     @Nullable
     @Override
@@ -69,6 +64,8 @@ public class FavoriteFragment extends Fragment {
         initVariables(v);
 
 
+        Bundle data=getArguments();
+
 
 //        List<MovieDTO> movie = new ArrayList<>(AppUtils.getFavourites());
 //        if (movie == null || movie.isEmpty()) {
@@ -76,10 +73,6 @@ public class FavoriteFragment extends Fragment {
 //            favouriteListView.setVisibility(View.GONE);
 //            infoText.setVisibility(View.VISIBLE);
 //        }
-
-
-
-
 
 
         return v;

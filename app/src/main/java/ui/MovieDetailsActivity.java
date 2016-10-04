@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.showbox.showbox.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import adapter.GalleryViewPagerAdapter;
@@ -132,7 +135,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         );
         overViewDescription.setText(movie.getOverview());
-        releaseDate.setText(movie.getReleaseDate());
+
+        try {
+            releaseDate.setText(formatReleaseDate(movie.getReleaseDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            releaseDate.setText(movie.getReleaseDate());
+        }
+
+        //releaseDate.setText(movie.getReleaseDate());
         //Picasso.with(this).load(MovieAPI.IMAGE_BASE_URL + movie.getPosterPath()).into(imageMovieDetails);
 
         rating.setText(movie.getVoteAverage() + "");
@@ -155,7 +166,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         );
 
         favouriteStatus.setChecked(AppUtils.isMovieInFavourites(movie));
+    }
 
+    private String formatReleaseDate(String movieReleaseServerDate) throws ParseException {
+        Date releaseServerDate;
+        releaseServerDate = new SimpleDateFormat("yyyy-MM-dd").parse(movieReleaseServerDate);
+        return new SimpleDateFormat("d MMM yyyy").format(releaseServerDate);
     }
 
     private void initSimilar(List<MovieDTO> similar) {

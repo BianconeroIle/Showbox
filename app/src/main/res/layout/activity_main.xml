@@ -26,30 +26,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Username"
-            android:id="@+id/usernameTextView"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/logoIcon"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Please enter your username"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            android:id="@+id/usernameInputText"
-            android:layout_below="@+id/usernameTextView"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Password"
@@ -69,7 +45,29 @@
             android:maxLines="1"
             android:id="@+id/password"
             android:layout_below="@+id/passwordTextView"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Please enter your username"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:id="@+id/usernameInputText"
+            android:layout_below="@+id/usernameTextView"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Username"
+            android:id="@+id/usernameTextView"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="38dp"
+            android:layout_below="@+id/logoIcon"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
 
@@ -90,6 +88,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/loginBtn"
+            android:layout_alignParentBottom="true"
+            android:checked="false" />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,19 +105,9 @@
             android:id="@+id/loginBtn"
             android:textColor="@android:color/white"
             android:background="@color/darkGray"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="14dp"
             android:layout_below="@+id/login_button"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember me"
-            android:id="@+id/checkBox"
-            android:checked="false"
-            android:layout_below="@+id/loginBtn"
-            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
 </RelativeLayout>
