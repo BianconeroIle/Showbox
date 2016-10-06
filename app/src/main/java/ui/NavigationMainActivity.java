@@ -18,6 +18,7 @@ import com.showbox.showbox.R;
 
 import adapter.NavDrawerListAdapter;
 import ui.fragments.FavoriteFragment;
+import ui.fragments.HomeFragment;
 import ui.fragments.MovieLibraryFragment;
 import ui.fragments.TVLibraryFragment;
 
@@ -105,6 +106,9 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
     public void onItemClick(int position, String title) {
         Log.d("NavigationMainActivity", "onItemClick pos=" + position + ", title=" + title);
         switch (position) {
+            case 1:
+                openHomeFragment();
+                break;
             case 2:
                 openMovieLibraryFragment();
                 break;
@@ -115,6 +119,16 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
                 openFavoriteFragment();
                 break;
         }
+    }
+    private void openHomeFragment() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Home");
+        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        HomeFragment fragment = new HomeFragment();
+        transaction.replace(R.id.container, fragment, HomeFragment.TAG);
+        transaction.commit();
+        mDrawerLayout.closeDrawers();
     }
 
     private void openMovieLibraryFragment() {
