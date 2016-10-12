@@ -126,8 +126,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
-//        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 

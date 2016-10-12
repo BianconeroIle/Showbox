@@ -288,6 +288,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
         } else {
             spinner.setVisibility(View.VISIBLE);
             searchTxt.setVisibility(View.GONE);
+            movies.clear();
             if (spinner.getSelectedItem() instanceof Category) {
                 Category c = (Category) spinner.getSelectedItem();
                 openSelectedSpinnerItem(c);

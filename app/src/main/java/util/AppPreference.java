@@ -19,7 +19,7 @@ import model.Movie.MovieDTO;
 import model.TV.GenreTVDTO;
 import model.TV.TVDTO;
 import model.User;
-import ui.MainActivity;
+import ui.LoginActivity;
 
 /**
  * Created by Vlade Ilievski on 9/1/2016.
@@ -175,7 +175,7 @@ public class AppPreference {
 
     public boolean checkIsAuthenticatedAndLogout() {
         if (!isAuthorised()) {
-            Intent i = new Intent(context, MainActivity.class);
+            Intent i = new Intent(context, LoginActivity.class);
             i.putExtra("loginExpired", true);
             context.startActivity(i);
             return false;

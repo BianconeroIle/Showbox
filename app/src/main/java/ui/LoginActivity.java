@@ -44,13 +44,14 @@ import retrofit.client.Response;
 import util.AppPreference;
 import util.AppUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView logoIcon;
     TextView usernameTextView;
     EditText username;
     TextView passwordTextView;
     EditText password;
     Button loginBtn;
+    Button loginGuest;
 
     AppPreference preference;
     CheckBox checkBox;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_layout);
         AppEventsLogger.activateApp(this);
 
         preference = new AppPreference(this);
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AppUtils.addSavedFavouriteMovies(savedMovies);
             AppUtils.addSavedFavouriteTVShow(savedTVShows);
         } else {
-//            Toast.makeText(MainActivity.this,
+//            Toast.makeText(LoginActivity.this,
 //                    "Empty library!", Toast.LENGTH_LONG).show();
         }
 
@@ -95,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         password = (EditText) findViewById(R.id.password);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(this);
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
-
+       // checkBox = (CheckBox) findViewById(R.id.checkBox);
+        loginGuest=(Button)findViewById(R.id.loginGuest);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
         onFacebookLogin();
@@ -108,19 +109,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         MovieAPI api = restAdapter.create(MovieAPI.class);
-        Log.d("MainActivity", "trying to get movies from server");
+        Log.d("LoginActivity", "trying to get movies from server");
         /*api.getMovie(new Callback<List<MovieDTO>>() {
             @Override
             public void success(List<MovieDTO> movies, Response response) {
-                Log.d("MainActivity", "success getting movies from server ");
+                Log.d("LoginActivity", "success getting movies from server ");
                 for (MovieDTO movie : movies) {
-                    Log.d("MainActivity", "movie : " + movie);
+                    Log.d("LoginActivity", "movie : " + movie);
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("MainActivity", "error getting movies from server " + error);
+                Log.d("LoginActivity", "error getting movies from server " + error);
             }
         });*/
 
@@ -128,13 +129,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         api.getMostPopular(ApiConstants.API_KEY, 1, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
-                Log.d("MainActivity", "success getting movies from server " + responseMovieDTO);
+                Log.d("LoginActivity", "success getting movies from server " + responseMovieDTO);
 
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("MainActivity", "success getting movies from server ");
+                Log.d("LoginActivity", "success getting movies from server ");
             }
         });
     }
@@ -150,15 +151,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d("MainActivity", "onSuccess");
+                        Log.d("LoginActivity", "onSuccess");
                         GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject json, GraphResponse response) {
-                                        Log.d("MainActivity", "onCompleted GraphRequest");
+                                        Log.d("LoginActivity", "onCompleted GraphRequest");
 
                                         try {
-                                            Log.d("MainActivity", "JSON Result" + json);
+                                            Log.d("LoginActivity", "JSON Result" + json);
 
                                            /* String str_email = json.getString("email");
                                             String str_id = json.getString("id");
@@ -189,13 +190,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onCancel() {
-                        Log.d("MainActivity", "On cancel");
+                        Log.d("LoginActivity", "On cancel");
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.d("MainActivity", error.toString());
-                        Toast.makeText(MainActivity.this,
+                        Log.d("LoginActivity", error.toString());
+                        Toast.makeText(LoginActivity.this,
                                 "Invalid login, Please try again", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -236,13 +237,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void openLibraryMoviesActivity() {
-        Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+        Intent intent = new Intent(LoginActivity.this, LibraryActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void openNavMainActivity() {
-        Intent intent = new Intent(MainActivity.this, NavigationMainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, NavigationMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    private void enterAsGuest(){
+        Intent intent = new Intent(LoginActivity.this,NavigationMainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -252,6 +258,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.loginBtn:
                 validateLogin();
+                break;
+            case R.id.loginGuest:
+                enterAsGuest();
                 break;
         }
 

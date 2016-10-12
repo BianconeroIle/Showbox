@@ -91,6 +91,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
+
+
+
         RecyclerView myList = (RecyclerView) findViewById(R.id.movierecycler_view);
         myList.setLayoutManager(layoutManager);
 

@@ -28,7 +28,7 @@
             android:configChanges="orientation" />
 
         <activity
-            android:name="ui.MainActivity"
+            android:name="ui.LoginActivity"
             android:configChanges="orientation" />
         <activity
             android:name="ui.LibraryActivity"

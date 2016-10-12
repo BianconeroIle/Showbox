@@ -63,7 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Genre:"
+                    android:text="Genre"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
@@ -71,6 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medium Text"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
@@ -81,6 +85,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:text="Rate:"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_below="@+id/genre"
                     android:layout_alignParentLeft="true"
@@ -91,6 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medium Text"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignBaseline="@+id/rate"
                     android:layout_alignBottom="@+id/rate"
@@ -102,6 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Overview:"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
                     android:layout_marginTop="9dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_below="@+id/releaseText"
@@ -128,6 +138,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="Release date:"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
                     android:layout_marginTop="9dp"
                     android:id="@+id/releaseText"
                     android:layout_below="@+id/rate"
@@ -137,15 +149,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rating"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_above="@id/overView"
                     android:text="Medium Text"
+                    android:textStyle="bold"
                     android:id="@+id/releaseDate"
-                    android:layout_alignTop="@+id/releaseText"
-                    android:layout_alignRight="@+id/overViewDescription"
-                    android:layout_alignEnd="@+id/overViewDescription"
-                    />
+                    android:textSize="15dp"
+                    android:layout_alignBaseline="@+id/releaseText"
+                    android:layout_alignBottom="@+id/releaseText"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 
@@ -153,7 +164,8 @@
                 android:layout_width="match_parent"
                 android:id="@+id/similarLayout"
                 android:layout_below="@id/contentLayout"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/movierecycler_view"
@@ -163,11 +175,16 @@
                     android:scrollbars="vertical"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/similarMovieTextView" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/darkGray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:textStyle="bold"
                     android:layout_marginEnd="6dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Similar to this movie.."

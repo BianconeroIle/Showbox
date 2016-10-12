@@ -292,6 +292,7 @@ public class TVLibraryFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                PAGE = 1;
                 searchTVShows(newText);
                 return false;
             }
@@ -299,6 +300,7 @@ public class TVLibraryFragment extends Fragment {
     }
 
     private void searchTVShows(String query) {
+        searchedString = query;
         if (query != null && !query.equals("")) {
             spinner.setVisibility(View.GONE);
             searchTxt.setVisibility(View.VISIBLE);
@@ -307,6 +309,7 @@ public class TVLibraryFragment extends Fragment {
         } else {
             spinner.setVisibility(View.VISIBLE);
             searchTxt.setVisibility(View.GONE);
+            tvshows.clear();
             if (spinner.getSelectedItem() instanceof Category) {
                 Category c = (Category) spinner.getSelectedItem();
                 openSelectedSpinnerItemFromTVShows(c);
@@ -319,7 +322,7 @@ public class TVLibraryFragment extends Fragment {
     private void searchTVShowFromServer(String query) {
         Log.d(TAG, "searchTVShows=" + query);
         progressBar.setVisibility(View.VISIBLE);
-        api.searchTVShow(ApiConstants.API_KEY, query, PAGE, new Callback<ResponseTVDTO>() {
+        api.searchTVShow(ApiConstants.API_KEY, query, 1, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success search TV shows from server " + responseTVDTO);
