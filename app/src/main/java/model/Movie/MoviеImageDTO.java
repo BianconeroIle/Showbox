@@ -3,12 +3,13 @@ package model.Movie;
 /**
  * Created by Vlade Ilievski on 9/6/2016.
  */
-public class MovieImageDTO {
+public class MoviеImageDTO {
     private String file_path;
     private int height;
     private float vote_average;
     private int vote_count;
     private int width;
+
 
     public String getFile_path() {
         return file_path;
@@ -52,7 +53,7 @@ public class MovieImageDTO {
 
     @Override
     public String toString() {
-        return "MovieImageDTO{" +
+        return "MoviеImageDTO{" +
                 "file_path='" + file_path + '\'' +
                 ", height=" + height +
                 ", vote_average=" + vote_average +

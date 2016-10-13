@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import com.showbox.showbox.R;
 import com.squareup.picasso.Picasso;
@@ -34,11 +35,13 @@ public class GalleryViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
         inflater = LayoutInflater.from(context);
+
         ImageView image = (ImageView) inflater.inflate(R.layout.slider_view_pager, collection, false);
         Picasso.with(context).load(ApiConstants.IMAGE_BASE_URL + images.get(position))/*placeholder(R.drawable.ic_logo)*/.into(image);
 
         collection.addView(image);
         Log.d("GalleryViewPagerAdapter", "image=" + ApiConstants.IMAGE_BASE_URL + images.get(position));
+
         return image;
     }
 

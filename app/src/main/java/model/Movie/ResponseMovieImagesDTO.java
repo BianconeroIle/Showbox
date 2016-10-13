@@ -12,7 +12,7 @@ public class ResponseMovieImagesDTO {
     private long id;
 
     @SerializedName("backdrops")
-    private List<MovieImageDTO> images;
+    private List<MoviеImageDTO> images;
 
 
     public long getId() {
@@ -23,11 +23,11 @@ public class ResponseMovieImagesDTO {
         this.id = id;
     }
 
-    public List<MovieImageDTO> getImages() {
+    public List<MoviеImageDTO> getImages() {
         return images;
     }
 
-    public void setImages(List<MovieImageDTO> images) {
+    public void setImages(List<MoviеImageDTO> images) {
         this.images = images;
     }
 }

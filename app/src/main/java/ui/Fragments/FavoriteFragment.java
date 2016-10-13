@@ -101,6 +101,7 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         adapter = new FavouriteListViewAdapter(getActivity(), R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavourites()));
         adapter = new FavouriteListViewAdapter(getActivity(),R.layout.favourite_listview_item,new ArrayList(AppUtils.getFavouritestvshow()));
         favouriteListView.setAdapter(adapter);

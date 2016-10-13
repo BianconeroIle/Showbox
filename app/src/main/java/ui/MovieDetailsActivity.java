@@ -2,6 +2,7 @@ package ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -12,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.showbox.showbox.R;
 
@@ -29,15 +32,18 @@ import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Movie.GenreDTO;
 import model.Movie.MovieDTO;
-import model.Movie.MovieImageDTO;
+import model.Movie.MoviеImageDTO;
 import model.Movie.ResponseMovieDTO;
 import model.Movie.ResponseMovieImagesDTO;
+import model.Movie.ResponseMovieVideoDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import util.AppPreference;
 import util.AppUtils;
+
+import static android.view.View.GONE;
 
 /**
  * Created by Vlade Ilievski on 8/16/2016.
@@ -66,6 +72,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     ProgressBar movieprogress_bar;
     RecyclerView movierecycler_view;
     SimilarRecyclerViewAdapter recyclerViewAdapterMovie;
+    private MediaController mediaControls;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,9 +98,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         movieprogress_bar.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-
-
+        if (mediaControls == null) {
+            mediaControls = new MediaController(MovieDetailsActivity.this);
+        }
 
         RecyclerView myList = (RecyclerView) findViewById(R.id.movierecycler_view);
         myList.setLayoutManager(layoutManager);
@@ -123,7 +131,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         viewPager.setAdapter(adapter);
 
-
+        getVideo(movie.getId());
         getMovieImages(movie.getId()
 
         );
@@ -135,6 +143,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         genres.setText(
 
                 getMovieGenres()
+
 
         );
         overViewDescription.setText(movie.getOverview());
@@ -152,9 +161,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         rating.setText(movie.getVoteAverage() + "");
         favouriteStatus.setOnClickListener(this);
 
-        favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-
-                                                   {
+        favouriteStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                        @Override
                                                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                                                            if (b) {
@@ -162,13 +169,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                                            } else {
                                                                AppUtils.removeFromFavourites(movie);
                                                            }
-
                                                        }
                                                    }
 
         );
-
         favouriteStatus.setChecked(AppUtils.isMovieInFavourites(movie));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     private String formatReleaseDate(String movieReleaseServerDate) throws ParseException {
@@ -182,12 +192,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         movierecycler_view.setAdapter(recyclerViewAdapterMovie);
     }
 
+    private void getVideo(int movie_id) {
+        api.getMovieVideo(ApiConstants.API_KEY, movie_id, new Callback<ResponseMovieVideoDTO>() {
+            @Override
+            public void success(ResponseMovieVideoDTO responseMovieVideoDTO, Response response) {
+                Log.d(TAG, "success getting movie video from server " + responseMovieVideoDTO);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "failure getting movie video from server ");
+
+            }
+        });
+    }
+
     private void getMovieSimilar(int movie_id) {
         api.getSimilarMovies(ApiConstants.API_KEY, movie_id, new Callback<ResponseMovieDTO>() {
             @Override
             public void success(ResponseMovieDTO responseMovieDTO, Response response) {
                 Log.d(TAG, "success getting details from server " + responseMovieDTO);
-                movieprogress_bar.setVisibility(View.GONE);
+                movieprogress_bar.setVisibility(GONE);
                 similarMovies = responseMovieDTO.getMovies();
                 initSimilar(responseMovieDTO.getMovies());
             }
@@ -195,7 +220,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "success getting details from server " + error);
-                movieprogress_bar.setVisibility(View.GONE);
+                movieprogress_bar.setVisibility(GONE);
             }
         });
     }
@@ -216,7 +241,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void getImagePaths(ResponseMovieImagesDTO res) {
-        for (MovieImageDTO img : res.getImages()) {
+        for (MoviеImageDTO img : res.getImages()) {
             images.add(img.getFile_path());
         }
         adapter.notifyDataSetChanged();
