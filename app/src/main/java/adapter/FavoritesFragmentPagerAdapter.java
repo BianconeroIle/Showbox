@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import ui.fragments.FavoriteDetailsFragment;
+
 public class FavoritesFragmentPagerAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 2;
 
@@ -21,10 +23,10 @@ public class FavoritesFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            /*case 0: // Fragment # 0 - This will show FirstFragment
-                return FirstFragment.newInstance(0, "Page # 1");
+            case 0: // Fragment # 0 - This will show FirstFragment
+                return FavoriteDetailsFragment.newInstance(FavoriteDetailsFragment.MOVIE_FAV);
             case 1: // Fragment # 0 - This will show FirstFragment different title
-                return FirstFragment.newInstance(1, "Page # 2");*/
+                return FavoriteDetailsFragment.newInstance(FavoriteDetailsFragment.TV_FAV);
             default:
                 return null;
         }

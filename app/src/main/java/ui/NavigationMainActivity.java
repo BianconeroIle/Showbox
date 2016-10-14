@@ -1,6 +1,5 @@
 package ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -10,14 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.showbox.showbox.R;
 
 import adapter.NavDrawerListAdapter;
-import ui.fragments.FavoriteFragment;
+import ui.fragments.FavoriteDetailsFragment;
+import ui.fragments.FavouriteFragment;
 import ui.fragments.HomeFragment;
 import ui.fragments.MovieLibraryFragment;
 import ui.fragments.TVLibraryFragment;
@@ -147,8 +145,8 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
             getSupportActionBar().setTitle("Favorite");
         }
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-        FavoriteFragment fragment=new FavoriteFragment();
-        transaction.replace(R.id.container,fragment,FavoriteFragment.TAG);
+        FavouriteFragment fragment=new FavouriteFragment();
+        transaction.replace(R.id.container,fragment, FavouriteFragment.TAG);
         transaction.commit();
         mDrawerLayout.closeDrawers();
     }

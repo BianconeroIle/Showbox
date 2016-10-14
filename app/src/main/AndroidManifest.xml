@@ -36,9 +36,6 @@
         <activity
             android:name="ui.MovieDetailsActivity"
             android:configChanges="orientation" />
-        <activity
-            android:name="ui.FavoriteActivity"
-            android:configChanges="orientation" />
 
         <activity
             android:name="ui.TVDetailsActivity"
