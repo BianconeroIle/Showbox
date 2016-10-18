@@ -97,6 +97,9 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
         mDrawerLayout.setDrawerListener(mDrawerToggle); // mDrawerLayout Listener set to the mDrawerLayout toggle
         mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
 
+
+        //onItemClick(1, TITLES[0]);
+        openHomeFragment();
     }
 
 
@@ -118,6 +121,7 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
                 break;
         }
     }
+
     private void openHomeFragment() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Home");
@@ -144,9 +148,9 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Favorite");
         }
-        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-        FavouriteFragment fragment=new FavouriteFragment();
-        transaction.replace(R.id.container,fragment, FavouriteFragment.TAG);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FavouriteFragment fragment = new FavouriteFragment();
+        transaction.replace(R.id.container, fragment, FavouriteFragment.TAG);
         transaction.commit();
         mDrawerLayout.closeDrawers();
     }

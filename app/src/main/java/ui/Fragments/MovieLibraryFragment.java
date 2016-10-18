@@ -108,6 +108,7 @@ public class MovieLibraryFragment extends Fragment implements View.OnClickListen
 
         gridViewAdapter = new GridViewAdapter(getContext(), R.layout.library_layout_item, movies);
         gridView.setAdapter(gridViewAdapter);
+
     }
 
 

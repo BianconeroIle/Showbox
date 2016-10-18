@@ -12,7 +12,7 @@ public class NewsDTO implements Serializable {
     String link;
     String description;
     String pubDate;
-
+    String originalLink;
 
 
     public String getTitle() {
@@ -48,4 +48,11 @@ public class NewsDTO implements Serializable {
     }
 
 
+    public String getOriginalLink() {
+        return originalLink;
+    }
+
+    public void setOriginalLink(String originalLink) {
+        this.originalLink = originalLink;
+    }
 }

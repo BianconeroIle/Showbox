@@ -25,6 +25,9 @@ import ui.MovieDetailsActivity;
 import ui.TVDetailsActivity;
 import util.AppUtils;
 
+import static util.AppUtils.movies;
+import static util.AppUtils.tvshows;
+
 /**
  * Created by Vlade Ilievski on 9/14/2016.
  */
@@ -60,7 +63,7 @@ public class FavoriteDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.favourite_details_fragment, container, false);
         initVariables(v);
-      
+
         return v;
     }
 
@@ -70,8 +73,20 @@ public class FavoriteDetailsFragment extends Fragment {
 
         if (favoritesType == MOVIE_FAV) {
             adapter = new FavouriteListViewAdapter(getActivity(), R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavourites()));
+            favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    MovieDetailsActivity.openActivity(getActivity(),movies.get(position));
+                }
+            });
         } else if (favoritesType == TV_FAV) {
             adapter = new FavouriteListViewAdapter(getActivity(), R.layout.favourite_listview_item, new ArrayList<>(AppUtils.getFavouritestvshow()));
+            favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TVDetailsActivity.openActivity(getActivity(),tvshows.get(position));
+                }
+            });
 
         }
 

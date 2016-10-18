@@ -95,10 +95,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordTextView = (TextView) findViewById(R.id.passwordTextView);
         password = (EditText) findViewById(R.id.password);
         loginBtn = (Button) findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(this);
-       // checkBox = (CheckBox) findViewById(R.id.checkBox);
-        loginGuest=(Button)findViewById(R.id.loginGuest);
+        // checkBox = (CheckBox) findViewById(R.id.checkBox);
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginBtn.setOnClickListener(this);
+
 
         onFacebookLogin();
 
@@ -203,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -247,11 +248,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         finish();
     }
-    private void enterAsGuest(){
-        Intent intent = new Intent(LoginActivity.this,NavigationMainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
 
     @Override
     public void onClick(View view) {
@@ -259,9 +256,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.loginBtn:
                 validateLogin();
                 break;
-            case R.id.loginGuest:
-                enterAsGuest();
-                break;
+
         }
 
     }

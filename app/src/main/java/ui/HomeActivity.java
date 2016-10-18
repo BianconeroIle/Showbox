@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import adapter.HomeRecyclerAdapter;
 import model.NewsDTO;
+import util.ReadRSS;
 
 /**
  * Created by Vlade Ilievski on 10/12/2016.
@@ -22,7 +23,8 @@ public class HomeActivity extends AppCompatActivity {
     HomeRecyclerAdapter homeRecyclerAdapter;
     ArrayList<NewsDTO> newsItems;
     ProgressDialog progressDialog;
-
+    private ReadRSS obj;
+    private String url1 = "feedburner.com/thr/film";
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         setContentView(R.layout.home_layout);
@@ -33,5 +35,9 @@ public class HomeActivity extends AppCompatActivity {
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
+
+
+
+
     }
 }

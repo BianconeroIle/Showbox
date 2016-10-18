@@ -42,91 +42,185 @@ public class ReadRSS {
     static final String KEY_LINK = "link";
     static final String KEY_DESCRIPTION = "description";
     static final String KEY_PUB_DATE = "pubDate";
-    private String urlString=null;
-    private XmlPullParserFactory xmlPullParserFactory;
+
+    //private XmlPullParserFactory xmlPullParserFactory;
+
+    List<NewsDTO> newsItems= new ArrayList<NewsDTO>();
 
 
+    private String urlString = null;
+    private XmlPullParserFactory xmlFactoryObject;
+    public volatile boolean parsingComplete = true;
+    NewsDTO curNews = null;
+
+    public ReadRSS(String url){
+        this.urlString = url;
+    }
 
 
+    public void parseXMLAndStoreIt(XmlPullParser myParser) {
+        int event;
+        String text=null;
 
-        public static List<NewsDTO> getNewsFromFile (Context ctx){
+        try {
+            event = myParser.getEventType();
 
-            // List of StackSites that we will return
-            List<NewsDTO> newsItems;
-            newsItems = new ArrayList<NewsDTO>();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                String name=myParser.getName();
 
-            // temp holder for current StackSite while parsing
-            NewsDTO curNews = null;
-            // temp holder for current text value while parsing
-            String curText = "";
+                switch (event){
+                    case XmlPullParser.START_TAG:
+                        break;
 
-            try {
-                // Get our factory and PullParser
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                XmlPullParser xpp = factory.newPullParser();
+                    case XmlPullParser.TEXT:
+                        text = myParser.getText();
+                        break;
 
-                // Open up InputStream and Reader of our file.
-                FileInputStream fis = ctx.openFileInput("feedburner.com/thr/film");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                    case XmlPullParser.END_TAG:
+                        if(name.equals(KEY_ITEM)){
+                            newsItems.add(curNews);
+                        }
 
-                // point the parser to our file.
-                xpp.setInput(reader);
+                        else if(name.equals(KEY_TITLE)){
+                            curNews.setTitle(text);
+                        }
 
-                // get initial eventType
-                int eventType = xpp.getEventType();
+                        else if(name.equals(KEY_LINK)){
+                            curNews.setLink(text);
+                        }
 
-                // Loop through pull events until we reach END_DOCUMENT
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    // Get the current tag
-                    String tagname = xpp.getName();
+                        else if(name.equals(KEY_DESCRIPTION)){
+                            curNews.setDescription(text);
+                        }
+                        else if(name.equals(KEY_PUB_DATE)){
+                            curNews.setPubDate(text);
+                        }
 
-                    // React to different event types appropriately
-                    switch (eventType) {
-                        case XmlPullParser.START_TAG:
-                            if (tagname.equalsIgnoreCase(KEY_ITEM)) {
-                                // If we are starting a new <site> block we need
-                                //a new StackSite object to represent it
-                                curNews = new NewsDTO();
-                            }
-                            break;
-
-                        case XmlPullParser.TEXT:
-                            //grab the current text so we can use it in END_TAG event
-                            curText = xpp.getText();
-                            break;
-
-                        case XmlPullParser.END_TAG:
-                            if (tagname.equalsIgnoreCase(KEY_ITEM)) {
-
-                                newsItems.add(curNews);
-                            } else if (tagname.equalsIgnoreCase(KEY_TITLE)) {
-
-                                curNews.setTitle(curText);
-                            } else if (tagname.equalsIgnoreCase(KEY_LINK)) {
-
-                                curNews.setLink(curText);
-                            } else if (tagname.equalsIgnoreCase(KEY_DESCRIPTION)) {
-
-                                curNews.setDescription(curText);
-                            } else if (tagname.equalsIgnoreCase(KEY_PUB_DATE)) {
-
-                                curNews.setPubDate(curText);
-                            }
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    eventType = xpp.next();
+                        else{
+                        }
+                        break;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                event = myParser.next();
             }
-
-            return newsItems;
-            // return the populated list.
+            parsingComplete = false;
         }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fetchXML(){
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
+                    conn.setReadTimeout(10000 /* milliseconds */);
+                    conn.setConnectTimeout(15000 /* milliseconds */);
+                    conn.setRequestMethod("GET");
+                    conn.setDoInput(true);
+                    conn.connect();
+
+                    InputStream stream = conn.getInputStream();
+                    xmlFactoryObject = XmlPullParserFactory.newInstance();
+                    XmlPullParser myparser = xmlFactoryObject.newPullParser();
+
+                    myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                    myparser.setInput(stream, null);
+
+                    parseXMLAndStoreIt(myparser);
+                    stream.close();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+}
+
+//        public static List<NewsDTO> getNewsFromFile (Context ctx){
+//
+//            // List of StackSites that we will return
+//            List<NewsDTO> newsItems;
+//            newsItems = new ArrayList<NewsDTO>();
+//
+//            // temp holder for current StackSite while parsing
+//            NewsDTO curNews = null;
+//            // temp holder for current text value while parsing
+//            String curText = "";
+//
+//            try {
+//                // Get our factory and PullParser
+//                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+//                XmlPullParser xpp = factory.newPullParser();
+//
+//                // Open up InputStream and Reader of our file.
+//                FileInputStream fis = ctx.openFileInput("feedburner.com/thr/film");
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+//
+//                // point the parser to our file.
+//                xpp.setInput(reader);
+//
+//                // get initial eventType
+//                int eventType = xpp.getEventType();
+//
+//                // Loop through pull events until we reach END_DOCUMENT
+//                while (eventType != XmlPullParser.END_DOCUMENT) {
+//                    // Get the current tag
+//                    String tagname = xpp.getName();
+//
+//                    // React to different event types appropriately
+//                    switch (eventType) {
+//                        case XmlPullParser.START_TAG:
+//                            if (tagname.equalsIgnoreCase(KEY_ITEM)) {
+//                                // If we are starting a new <site> block we need
+//                                //a new StackSite object to represent it
+//                                curNews = new NewsDTO();
+//                            }
+//                            break;
+//
+//                        case XmlPullParser.TEXT:
+//                            //grab the current text so we can use it in END_TAG event
+//                            curText = xpp.getText();
+//                            break;
+//
+//                        case XmlPullParser.END_TAG:
+//                            if (tagname.equalsIgnoreCase(KEY_ITEM)) {
+//
+//                                newsItems.add(curNews);
+//                            } else if (tagname.equalsIgnoreCase(KEY_TITLE)) {
+//
+//                                curNews.setTitle(curText);
+//                            } else if (tagname.equalsIgnoreCase(KEY_LINK)) {
+//
+//                                curNews.setLink(curText);
+//                            } else if (tagname.equalsIgnoreCase(KEY_DESCRIPTION)) {
+//
+//                                curNews.setDescription(curText);
+//                            } else if (tagname.equalsIgnoreCase(KEY_PUB_DATE)) {
+//
+//                                curNews.setPubDate(curText);
+//                            }
+//                            break;
+//
+//                        default:
+//                            break;
+//                    }
+//
+//                    eventType = xpp.next();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            return newsItems;
+//            // return the populated list.
+//        }
 
 //    public void fetchXML(){
 //        Thread thread=new Thread(new Runnable() {
@@ -155,7 +249,7 @@ public class ReadRSS {
 //            }
 //        });
 //    }
-}
+
 
 
 

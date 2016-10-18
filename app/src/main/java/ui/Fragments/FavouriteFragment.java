@@ -28,6 +28,8 @@ public class FavouriteFragment extends Fragment {
         View v = inflater.inflate(R.layout.favourite_fragment,container,false);
         initVariables(v);
         return v;
+
+
     }
 
     @Override

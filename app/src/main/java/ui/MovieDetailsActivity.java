@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -105,6 +106,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         RecyclerView myList = (RecyclerView) findViewById(R.id.movierecycler_view);
         myList.setLayoutManager(layoutManager);
 
+
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(ApiConstants.THEMOVIIEDB_URL)
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -131,7 +134,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         viewPager.setAdapter(adapter);
 
-        getVideo(movie.getId());
+//        getVideo(movie.getId());
         getMovieImages(movie.getId()
 
         );
