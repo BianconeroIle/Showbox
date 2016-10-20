@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.showbox.showbox.R;
@@ -74,6 +76,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     RecyclerView movierecycler_view;
     SimilarRecyclerViewAdapter recyclerViewAdapterMovie;
     private MediaController mediaControls;
+    ImageView playImageYT;
 
 
     @Override
@@ -94,6 +97,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         overViewDescription = (TextView) findViewById(R.id.overViewDescription);
         releaseDate = (TextView) findViewById(R.id.releaseDate);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        playImageYT=(ImageView)findViewById(R.id.playImageYT);
         movieprogress_bar = (ProgressBar) findViewById(R.id.movieprogress_bar);
         movierecycler_view = (RecyclerView) findViewById(R.id.movierecycler_view);
         movieprogress_bar.setVisibility(View.VISIBLE);
@@ -168,8 +172,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                                                        @Override
                                                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                                                            if (b) {
+                                                               Toast.makeText(MovieDetailsActivity.this, "Added to favourite movies library", Toast.LENGTH_LONG).show();
                                                                AppUtils.addFavouriteMovie(movie);
                                                            } else {
+                                                               Toast.makeText(MovieDetailsActivity.this, "Removed from favourite movies library", Toast.LENGTH_LONG).show();
                                                                AppUtils.removeFromFavourites(movie);
                                                            }
                                                        }
@@ -218,6 +224,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 movieprogress_bar.setVisibility(GONE);
                 similarMovies = responseMovieDTO.getMovies();
                 initSimilar(responseMovieDTO.getMovies());
+                if(similarMovies.isEmpty()){
+                    Toast.makeText(MovieDetailsActivity.this, "No similar movies", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -279,6 +288,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onSimilarClick(MovieDTO object) {
         MovieDetailsActivity.openActivity(this, object);
+        finish();
     }
 }
 

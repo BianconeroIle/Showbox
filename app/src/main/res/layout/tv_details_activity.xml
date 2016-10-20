@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/imageTitle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gray">
+    android:background="@color/darkGray"
+    android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp">
+                android:padding="1dp">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
@@ -38,26 +39,18 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/header"
                 android:orientation="horizontal"
-                android:padding="7dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:text="Title"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/lighestGray"
                     android:textStyle="bold" />
-                <CheckBox
-                    android:id="@+id/favouriteStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/favourite_button_selector"
-                    android:checked="false"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
 
                 <TextView
                     android:id="@+id/genres"
@@ -65,9 +58,33 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tvTitle"
+                    android:layout_marginTop="3dp"
                     android:ellipsize="end"
                     android:text="genres"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/lighestGray" />
+
+                <CheckBox
+                    android:id="@+id/favouriteStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvTitle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp"
+                    android:button="@drawable/favourite_button_selector"
+                    android:checked="false" />
+
+                <TextView
+                    android:id="@+id/overviewtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:text="OverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverview"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/lighestGray"
+                    android:layout_below="@+id/genres"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/episodeRunTime"
@@ -75,48 +92,79 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/genres"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp"
                     android:text="49 mins"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/lighestGray" />
 
-                <TextView
-                    android:id="@+id/overviewtv"
+                <RelativeLayout
+                    android:id="@+id/trailerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/genres"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp"
                     android:layout_marginBottom="3dp"
-                    android:layout_marginTop="7dp"
-                    android:ellipsize="end"
-                    android:maxLines="5"
-                    android:text="OverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverviewOverview"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:layout_below="@id/overviewtv"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.7dp"
+                        android:background="@android:color/white" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_yt_logo"
+                        android:id="@+id/playImage" />
+
+                    <TextView
+                        android:text="Play Trailer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/playTrailer"
+                        android:textColor="@color/lighestGray"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/playImage"
+                        android:layout_marginStart="17dp" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/overviewtv"
+                    android:layout_below="@+id/trailerLayout"
                     android:gravity="center"
                     android:padding="3dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.7dp"
+                        android:background="@android:color/white" />
 
                     <ImageView
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:src="@drawable/rating_star" />
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/star" />
 
                     <TextView
                         android:id="@+id/rating_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="5dp"
                         android:layout_toEndOf="@+id/rating"
                         android:text="8.3"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/black"
-                        android:textSize="22dp" />
+                        android:textColor="@color/lighestGray"
+                        android:textSize="22dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -137,21 +185,23 @@
                             android:id="@+id/seasonstextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
                             android:layout_marginEnd="3dp"
+                            android:layout_marginTop="3dp"
                             android:text="Seasons  "
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/lighestGray" />
 
                         <TextView
                             android:id="@+id/seasonsnumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginEnd="3dp"
                             android:layout_alignBottom="@+id/linearLayout"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginEnd="3dp"
+                            android:layout_marginTop="3dp"
                             android:text="5 Seasons"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/lighestGray" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -164,21 +214,23 @@
                             android:id="@+id/episodesTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
                             android:layout_marginEnd="3dp"
+                            android:layout_marginTop="3dp"
                             android:text="Episodes "
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/lighestGray" />
 
                         <TextView
                             android:id="@+id/episodenumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@+id/linearLayout"
-                            android:layout_toEndOf="@+id/body"
-                            android:layout_marginTop="3dp"
                             android:layout_marginEnd="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/body"
                             android:text="12 episodes"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/lighestGray" />
 
                     </LinearLayout>
 
@@ -188,19 +240,23 @@
                     android:id="@+id/onAirFirstTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/trailerLayout"
+                    android:layout_marginTop="3dp"
                     android:text="First time on air"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_below="@+id/releasedateTextView"
-                    android:layout_alignParentEnd="true" />
+                    android:textColor="@color/lighestGray" />
 
                 <TextView
                     android:id="@+id/releasedateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/trailerLayout"
+                    android:layout_marginTop="18dp"
                     android:text="Release Date "
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_below="@+id/overviewtv"
-                    android:layout_alignParentEnd="true" />
+                    android:textColor="@color/lighestGray" />
 
             </RelativeLayout>
 
@@ -210,16 +266,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/details"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/similarTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="Similar to this TV Show.."
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -235,8 +281,20 @@
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/similarTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="4dp"
+                    android:text="Similar to this TV Show.."
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/lighestGray" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -102,6 +102,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
         static final String KEY_LINK = "link";
         static final String KEY_PUB_DATE = "pubDate";
         static final String KEY_SITE = "site";
+        static final String KEY_ORG_LINK = "feedburner:origLink";
 
 
         /*
@@ -125,6 +126,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
                 curStackSite.setLink(getValue(e,KEY_LINK));
                 curStackSite.setDescription(getValue(e,KEY_DESCRIPTION));
                 curStackSite.setPubDate(getValue(e,KEY_PUB_DATE));
+
 
                 //Log.i("StackSites", curStackSite.getName());
                 newsItems.add(curStackSite);

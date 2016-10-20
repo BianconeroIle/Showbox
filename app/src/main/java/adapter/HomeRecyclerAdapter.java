@@ -1,7 +1,6 @@
 package adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -11,23 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.showbox.showbox.R;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import interfaces.ApiConstants;
 import model.NewsDTO;
 
 /**
@@ -87,6 +82,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         }
 
         holder.description.setText(Html.fromHtml(document.outerHtml()));
+
     }
 
     @Override
@@ -105,5 +101,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             description = (TextView) itemView.findViewById(R.id.cardviewDescription);
             date = (TextView) itemView.findViewById(R.id.cardviewDate);
         }
+    }
+
+    public List<NewsDTO> getItems() {
+        return item;
     }
 }

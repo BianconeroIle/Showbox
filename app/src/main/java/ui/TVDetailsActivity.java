@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.showbox.showbox.R;
 
@@ -73,6 +74,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     private SimilarRecyclerViewAdapter similarRecyclerViewAdapter;
     CheckBox favouriteStatus;
     private int position;
+    ImageView playImage;
 
 
     @Override
@@ -112,6 +114,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         adapter = new GalleryViewPagerAdapter(this, images);
         recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
         favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
+        playImage = (ImageView) findViewById(R.id.playImage);
 
         position = getIntent().getExtras().getInt("position");
 
@@ -137,6 +140,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         getTVDetails(tvShow.getId());
         getTVImages(tvShow.getId());
         getTVSimular(tvShow.getId());
+        getTVVideo(tvShow.getId());
         //    Picasso.with(getContext()).load(ApiConstants.IMAGE_BASE_URL + tvShow.get(position).getPoster_path()).into(tvimages);
 
 //        Uri videoPath = Uri.parse("");
@@ -164,8 +168,10 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    Toast.makeText(TVDetailsActivity.this, "Added to favourite TV library", Toast.LENGTH_LONG).show();
                     AppUtils.addFavouriteTvShow(tvShow);
                 } else {
+                    Toast.makeText(TVDetailsActivity.this, "Removed from favourite TV library", Toast.LENGTH_LONG).show();
                     AppUtils.removeFromFavouriteTvShow(tvShow);
                 }
 
@@ -176,8 +182,6 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     }
 
 
-
-
     private void initTvDetails(TVDTO details) {
         seasonsnumber.setText(details.getNumber_of_seasons() + "");
         episodenumber.setText(details.getNumber_of_episodes() + "");
@@ -186,6 +190,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         genres.setText(getGenres(details.getGenre()));
 
     }
+
     private String formatReleaseDate(String movieReleaseServerDate) throws ParseException {
         Date releaseServerDate;
         releaseServerDate = new SimpleDateFormat("yyyy-MM-dd").parse(movieReleaseServerDate);
@@ -216,6 +221,28 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
 
     private void getTVSimular(int tvId) {
         api.getSimilarTVShow(ApiConstants.API_KEY, tvId, new Callback<ResponseTVDTO>() {
+            @Override
+            public void success(ResponseTVDTO responseTVDTO, Response response) {
+                Log.d(TAG, "success getting details from server " + responseTVDTO);
+                progress_bar.setVisibility(View.GONE);
+                simularTvShows = responseTVDTO.getTvshow();
+                initSimilar(responseTVDTO.getTvshow());
+                if (simularTvShows.isEmpty()) {
+                    Toast.makeText(TVDetailsActivity.this, "No similar TV shows", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "success getting details from server " + error);
+                progress_bar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void getTVVideo(int tvId) {
+        api.getVideos(ApiConstants.API_KEY, tvId, new Callback<ResponseTVDTO>() {
             @Override
             public void success(ResponseTVDTO responseTVDTO, Response response) {
                 Log.d(TAG, "success getting details from server " + responseTVDTO);
@@ -295,6 +322,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     @Override
     public void onSimilarClick(TVDTO object) {
         TVDetailsActivity.openActivity(this, object);
+        finish();
     }
 
     @Override

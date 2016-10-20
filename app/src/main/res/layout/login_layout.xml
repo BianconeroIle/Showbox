@@ -62,8 +62,8 @@
             android:layout_alignParentStart="true" />
 
         <ImageView
-            android:layout_width="145dp"
-            android:layout_height="145dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:id="@+id/logoIcon"
             android:src="@drawable/ic_logo"
             android:layout_marginTop="32dp"
