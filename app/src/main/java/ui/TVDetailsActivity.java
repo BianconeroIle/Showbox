@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     CheckBox favouriteStatus;
     private int position;
     ImageView playImage;
+    RelativeLayout trailerLayout;
 
 
     @Override
@@ -114,8 +116,8 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         adapter = new GalleryViewPagerAdapter(this, images);
         recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
         favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
-        playImage = (ImageView) findViewById(R.id.playImage);
-
+        trailerLayout=(RelativeLayout)findViewById(R.id.trailerLayout);
+        trailerLayout.setOnClickListener(this);
         position = getIntent().getExtras().getInt("position");
 
         String requestFrom = getIntent().getExtras().getString("request_from");

@@ -112,20 +112,19 @@
                         android:layout_height="0.7dp"
                         android:background="@android:color/white" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_yt_logo"
-                        android:id="@+id/playImage" />
+
 
                     <TextView
                         android:text="Play Trailer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/playTrailer"
+                        android:layout_margin="10dp"
                         android:textColor="@color/lighestGray"
+                        android:drawableLeft="@drawable/ic_yt_logo"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/playImage"
+                        android:gravity="center"
+                        android:drawablePadding="10dp"
                         android:layout_marginStart="17dp" />
 
                 </RelativeLayout>

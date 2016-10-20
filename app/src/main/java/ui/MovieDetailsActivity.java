@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -77,6 +78,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     SimilarRecyclerViewAdapter recyclerViewAdapterMovie;
     private MediaController mediaControls;
     ImageView playImageYT;
+    RelativeLayout trailerLayout;
 
 
     @Override
@@ -97,7 +99,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         overViewDescription = (TextView) findViewById(R.id.overViewDescription);
         releaseDate = (TextView) findViewById(R.id.releaseDate);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        playImageYT=(ImageView)findViewById(R.id.playImageYT);
+        trailerLayout=(RelativeLayout)findViewById(R.id.trailerLayout);
         movieprogress_bar = (ProgressBar) findViewById(R.id.movieprogress_bar);
         movierecycler_view = (RecyclerView) findViewById(R.id.movierecycler_view);
         movieprogress_bar.setVisibility(View.VISIBLE);
@@ -106,7 +108,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         if (mediaControls == null) {
             mediaControls = new MediaController(MovieDetailsActivity.this);
         }
-
+        trailerLayout.setOnClickListener(this);
         RecyclerView myList = (RecyclerView) findViewById(R.id.movierecycler_view);
         myList.setLayoutManager(layoutManager);
 

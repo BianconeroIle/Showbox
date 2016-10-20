@@ -171,6 +171,8 @@
                 android:id="@+id/trailerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_below="@+id/contentLayout"
                 android:layout_alignParentStart="true">
                 <View
@@ -178,24 +180,20 @@
                     android:layout_height="0.7dp"
                     android:background="@android:color/white" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    app:srcCompat="@drawable/ic_yt_logo"
-                    android:id="@+id/playImageYT"
-                    android:layout_weight="1" />
-
                 <TextView
                     android:text="Play Trailer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView"
+                    android:id="@+id/playtxt"
                     android:textSize="15dp"
+                    android:drawableLeft="@drawable/ic_yt_logo"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/playImageYT"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawablePadding="10dp"
                     android:textColor="@color/lighestGray"
-                    android:layout_marginStart="15dp" />
+                    android:layout_marginStart="17dp" />
 
 
             </RelativeLayout>
