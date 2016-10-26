@@ -6,99 +6,112 @@
     android:padding="10dp"
     android:id="@+id/main"
     tools:context="ui.LoginActivity"
-    android:background="@color/darkGray">
+    android:background="@color/splash">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:id="@+id/usernamePanel"
         >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Password"
-            android:id="@+id/passwordTextView"
-            android:layout_below="@+id/usernameInputText"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Password"-->
+            <!--android:id="@+id/passwordTextView"-->
+            <!--android:layout_below="@+id/usernameInputText"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Please enter you password"
-            android:textColorHint="@android:color/white"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:id="@+id/password"
-            android:layout_below="@+id/passwordTextView"
-            android:layout_alignParentStart="true" />
+        <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:hint="Please enter you password"-->
+            <!--android:textColorHint="@android:color/white"-->
+            <!--android:inputType="textPassword"-->
+            <!--android:maxLines="1"-->
+            <!--android:id="@+id/password"-->
+            <!--android:layout_below="@+id/passwordTextView"-->
+            <!--android:layout_alignParentStart="true" />-->
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Please enter your username"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            android:id="@+id/usernameInputText"
-            android:layout_below="@+id/usernameTextView"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Username"
-            android:id="@+id/usernameTextView"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="38dp"
-            android:layout_below="@+id/logoIcon"
-            android:layout_alignParentStart="true" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Username"-->
+            <!--android:id="@+id/usernameTextView"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:layout_marginTop="38dp"-->
+            <!--android:layout_below="@+id/logoIcon"-->
+            <!--android:layout_alignParentStart="true" />-->
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="370dp"
             android:id="@+id/logoIcon"
             android:src="@drawable/ic_logo"
             android:layout_marginTop="32dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentTop="true" />
+
+        <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColorHint="@android:color/white"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:hint="Please enter your username"-->
+            <!--android:maxLines="1"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:id="@+id/usernameInputText"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_alignParentStart="true" />-->
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/usernamePanel"
         android:id="@+id/loginButtonsPanel"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/grey600"
-            android:text="Login"
-            android:id="@+id/loginBtn"
-            android:textColor="@android:color/white"
-            android:background="@color/darkGray"
-            android:layout_marginTop="14dp"
-            android:layout_below="@+id/login_button"
-            android:layout_alignParentStart="true" />
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:backgroundTint="@color/grey600"-->
+            <!--android:text="Login"-->
+            <!--android:id="@+id/loginBtn"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:background="@color/darkGray"-->
+            <!--android:layout_marginTop="14dp"-->
+            <!--android:layout_below="@+id/login_button"-->
+            <!--android:layout_alignParentStart="true" />-->
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="22dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="110dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:text="Welcome to Showbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/welcome"
+            android:layout_marginBottom="19dp"
+            android:layout_above="@+id/login_button"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

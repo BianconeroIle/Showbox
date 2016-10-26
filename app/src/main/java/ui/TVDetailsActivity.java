@@ -31,11 +31,14 @@ import adapter.SimilarRecyclerViewAdapter;
 import interfaces.ApiConstants;
 import interfaces.TVApi;
 import model.Movie.GenreDTO;
+import model.Movie.MovieVideoDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.ResponseTVGenresDTO;
 import model.TV.ResponseTVImagesDTO;
+import model.TV.ResponseTVVideoDTO;
 import model.TV.TVDTO;
 import model.TV.TVImageDTO;
+import model.TV.TVVideoDTO;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -77,7 +80,9 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     private int position;
     ImageView playImage;
     RelativeLayout trailerLayout;
-
+    TextView similarTextView;
+    TextView playTrailer;
+    ResponseTVVideoDTO tvVideoDTO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,8 +122,12 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
         favouriteStatus = (CheckBox) findViewById(R.id.favouriteStatus);
         trailerLayout=(RelativeLayout)findViewById(R.id.trailerLayout);
+        playTrailer=(TextView)findViewById(R.id.playTrailer);
+        playTrailer.setOnClickListener(this);
         trailerLayout.setOnClickListener(this);
         position = getIntent().getExtras().getInt("position");
+        similarTextView=(TextView)findViewById(R.id.similarTextView);
+        similarTextView.setVisibility(View.VISIBLE);
 
         String requestFrom = getIntent().getExtras().getString("request_from");
         if (requestFrom != null && requestFrom.equals("library")) {
@@ -230,6 +239,7 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
                 simularTvShows = responseTVDTO.getTvshow();
                 initSimilar(responseTVDTO.getTvshow());
                 if (simularTvShows.isEmpty()) {
+                    similarTextView.setVisibility(View.GONE);
                     Toast.makeText(TVDetailsActivity.this, "No similar TV shows", Toast.LENGTH_LONG).show();
                 }
 
@@ -244,19 +254,17 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
     }
 
     private void getTVVideo(int tvId) {
-        api.getVideos(ApiConstants.API_KEY, tvId, new Callback<ResponseTVDTO>() {
+        api.getVideos(ApiConstants.API_KEY, tvId, new Callback<ResponseTVVideoDTO>() {
             @Override
-            public void success(ResponseTVDTO responseTVDTO, Response response) {
-                Log.d(TAG, "success getting details from server " + responseTVDTO);
-                progress_bar.setVisibility(View.GONE);
-                simularTvShows = responseTVDTO.getTvshow();
-                initSimilar(responseTVDTO.getTvshow());
+            public void success(ResponseTVVideoDTO responseTVVideoDTO, Response response) {
+                Log.d(TAG, "success getting details from server " + responseTVVideoDTO);
+                tvVideoDTO=responseTVVideoDTO;
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "success getting details from server " + error);
-                progress_bar.setVisibility(View.GONE);
+
             }
         });
     }
@@ -326,10 +334,34 @@ public class TVDetailsActivity extends AppCompatActivity implements SimilarRecyc
         TVDetailsActivity.openActivity(this, object);
         finish();
     }
+    public void openYouTubeTrailer(){
+        if(tvVideoDTO!=null){
+            Intent i=new Intent(TVDetailsActivity.this,PlayerActivity.class);
+            i.putExtra("youtubeVideoKey", getVideoKey());
+            startActivity(i);
+        }else{
+            getTVVideo(tvShow.getId());
+        }
+    }
+    private String getVideoKey() {
+        if (tvVideoDTO != null) {
+            List<TVVideoDTO> trailers = tvVideoDTO.getVideos();
+            for (TVVideoDTO video : trailers) {
+                if (video.getSite().equals("YouTube")) {
+                    return video.getKey();
+                }
+            }
+        }
+        return "";
+    }
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+           case R.id.playTrailer:
+               openYouTubeTrailer();
+            break;
+        }
     }
 }
 

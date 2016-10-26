@@ -29,7 +29,7 @@ public class NavigationMainActivity extends AppCompatActivity implements NavDraw
     //This Icons And Titles Are holded in an Array as you can see
 
     String TITLES[] = {"Home", "Movie", "TV", "Favorites"};
-    int ICONS[] = {R.drawable.ic_home_white_36dp, R.drawable.ic_movie, R.drawable.ic_tv, R.drawable.ic_favorite_white_36dp};
+    int ICONS[] = {R.drawable.ic_home, R.drawable.ic_movie, R.drawable.ic_television, R.drawable.ic_favorite_nav_menu};
 
     //Similarly we Create a String Resource for the name and email in the header view
     //And we also create a int resource for profile picture in the header view

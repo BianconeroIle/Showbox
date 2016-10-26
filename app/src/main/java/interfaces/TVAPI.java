@@ -5,6 +5,7 @@ import model.Movie.ResponseMovieDTO;
 import model.TV.ResponseTVDTO;
 import model.TV.ResponseTVGenresDTO;
 import model.TV.ResponseTVImagesDTO;
+import model.TV.ResponseTVVideoDTO;
 import model.TV.TVDTO;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -29,7 +30,7 @@ public interface TVApi {
     void popularTVShows(@Query("api_key") String apiKey, @Query("page") int page, Callback<ResponseTVDTO> callback);
 
     @GET("/tv/{tv_id}/videos")
-    void getVideos(@Query("api_key") String apiKey, @Path("tv_id") int tv_id, Callback<ResponseTVDTO> callback);
+    void getVideos(@Query("api_key") String apiKey, @Path("tv_id") int tv_id, Callback<ResponseTVVideoDTO> callback);
 
     @GET("/tv/{tv_id}/images")
     void getTVImages(@Query("api_key") String apiKey, @Path("tv_id") int tv_id, Callback<ResponseTVImagesDTO> callback);

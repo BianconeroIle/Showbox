@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button loginGuest;
 
     AppPreference preference;
-    CheckBox checkBox;
-    private LoginButton loginButton;
+//    CheckBox checkBox;
+//    private LoginButton loginButton;
     private CallbackManager callbackManager;
 
 
@@ -90,14 +90,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         logoIcon = (ImageView) findViewById(R.id.logoIcon);
-        usernameTextView = (TextView) findViewById(R.id.usernameTextView);
-        username = (EditText) findViewById(R.id.usernameInputText);
-        passwordTextView = (TextView) findViewById(R.id.passwordTextView);
-        password = (EditText) findViewById(R.id.password);
-        loginBtn = (Button) findViewById(R.id.loginBtn);
-        // checkBox = (CheckBox) findViewById(R.id.checkBox);
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginBtn.setOnClickListener(this);
+//        usernameTextView = (TextView) findViewById(R.id.usernameTextView);
+//        username = (EditText) findViewById(R.id.usernameInputText);
+//        passwordTextView = (TextView) findViewById(R.id.passwordTextView);
+//        password = (EditText) findViewById(R.id.password);
+//        loginBtn = (Button) findViewById(R.id.loginBtn);
+//        // checkBox = (CheckBox) findViewById(R.id.checkBox);
+//        loginButton = (LoginButton) findViewById(R.id.login_button);
+//        loginBtn.setOnClickListener(this);
 
 
         onFacebookLogin();
@@ -211,31 +211,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void validateLogin() {
-        username.setError(null);
-        password.setError(null);
-
-        String u = username.getText().toString();
-        String p = password.getText().toString();
-
-        if (u.equals("")) {
-            username.setError("This field is required!");
-        }
-        if (p.equals("")) {
-            password.setError("This field is required!");
-        }
-
-        if (AppUtils.checkUserExist(u, p)) {
-            if (checkBox.isChecked()) {
-                preference.setUserLogged(true);
-                preference.setExpirationDate(new Date());
-                preference.setUsername(u);
-            }
-            openNavMainActivity();
-        } else {
-            Toast.makeText(this, "The username or password you have entered is invalid.", Toast.LENGTH_LONG).show();
-        }
-    }
+//    public void validateLogin() {
+//        username.setError(null);
+//        password.setError(null);
+//
+//        String u = username.getText().toString();
+//        String p = password.getText().toString();
+//
+//        if (u.equals("")) {
+//            username.setError("This field is required!");
+//        }
+//        if (p.equals("")) {
+//            password.setError("This field is required!");
+//        }
+//
+//        if (AppUtils.checkUserExist(u, p)) {
+//            if (checkBox.isChecked()) {
+//                preference.setUserLogged(true);
+//                preference.setExpirationDate(new Date());
+//                preference.setUsername(u);
+//            }
+//            openNavMainActivity();
+//        } else {
+//            Toast.makeText(this, "The username or password you have entered is invalid.", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     private void openLibraryMoviesActivity() {
         Intent intent = new Intent(LoginActivity.this, LibraryActivity.class);
@@ -253,9 +253,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.loginBtn:
-                validateLogin();
-                break;
+//            case R.id.loginBtn:
+//                validateLogin();
+//                break;
 
         }
 

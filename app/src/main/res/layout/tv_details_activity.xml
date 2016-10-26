@@ -291,6 +291,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="4dp"
+                    android:textSize="16dp"
                     android:text="Similar to this TV Show.."
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lighestGray" />

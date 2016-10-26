@@ -11,7 +11,7 @@ public class ResponseTVVideoDTO {
     private int id;
 
     @SerializedName("results")
-    private List<TVDTO> videos;
+    private List<TVVideoDTO> videos;
 
     public int getId() {
         return id;
@@ -21,11 +21,11 @@ public class ResponseTVVideoDTO {
         this.id = id;
     }
 
-    public List<TVDTO> getVideos() {
+    public List<TVVideoDTO> getVideos() {
         return videos;
     }
 
-    public void setVideos(List<TVDTO> videos) {
+    public void setVideos(List<TVVideoDTO> videos) {
         this.videos = videos;
     }
 

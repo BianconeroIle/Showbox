@@ -159,6 +159,7 @@
                     android:layout_height="wrap_content"
                     android:text="Genres"
                     android:textSize="15dp"
+                    android:layout_toLeftOf="@+id/releaseDatee"
                     android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentTop="true"
@@ -240,6 +241,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/lighestGray"
                     android:text="Similar to this movie"
+                    android:textSize="16dp"
                     android:id="@+id/similarMovieTextView"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true" />

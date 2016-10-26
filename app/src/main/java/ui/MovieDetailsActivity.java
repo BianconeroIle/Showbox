@@ -36,6 +36,7 @@ import interfaces.ApiConstants;
 import interfaces.MovieAPI;
 import model.Movie.GenreDTO;
 import model.Movie.MovieDTO;
+import model.Movie.MovieVideoDTO;
 import model.Movie.MoviеImageDTO;
 import model.Movie.ResponseMovieDTO;
 import model.Movie.ResponseMovieImagesDTO;
@@ -48,6 +49,7 @@ import util.AppPreference;
 import util.AppUtils;
 
 import static android.view.View.GONE;
+import static util.AppUtils.movies;
 
 /**
  * Created by Vlade Ilievski on 8/16/2016.
@@ -57,6 +59,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public static final String FROM_LIBRARY = "library";
     public static final String FROM_FAVORITES = "favorites";
+    public static final String YOUTUBE_API_KEY = "AIzaSyBzuuzGkL7PU1AoW4_ahyPg2eyuD6xy9QM";
     public static final String TAG = MovieDetailsActivity.class.getName();
     TextView titleMovie;
     //ImageView imageMovieDetails;
@@ -77,8 +80,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     RecyclerView movierecycler_view;
     SimilarRecyclerViewAdapter recyclerViewAdapterMovie;
     private MediaController mediaControls;
-    ImageView playImageYT;
     RelativeLayout trailerLayout;
+    TextView similarMovieTextView;
+    TextView playtxt;
+
+    ResponseMovieVideoDTO movieVideoDTO;
 
 
     @Override
@@ -99,10 +105,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         overViewDescription = (TextView) findViewById(R.id.overViewDescription);
         releaseDate = (TextView) findViewById(R.id.releaseDate);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        trailerLayout=(RelativeLayout)findViewById(R.id.trailerLayout);
+        trailerLayout = (RelativeLayout) findViewById(R.id.trailerLayout);
         movieprogress_bar = (ProgressBar) findViewById(R.id.movieprogress_bar);
         movierecycler_view = (RecyclerView) findViewById(R.id.movierecycler_view);
         movieprogress_bar.setVisibility(View.VISIBLE);
+        similarMovieTextView = (TextView) findViewById(R.id.similarMovieTextView);
+        similarMovieTextView.setVisibility(View.VISIBLE);
+        playtxt = (TextView) findViewById(R.id.playtxt);
+        playtxt.setOnClickListener(this);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         if (mediaControls == null) {
@@ -111,7 +121,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         trailerLayout.setOnClickListener(this);
         RecyclerView myList = (RecyclerView) findViewById(R.id.movierecycler_view);
         myList.setLayoutManager(layoutManager);
-
 
 
         RestAdapter restAdapter = new RestAdapter.Builder()
@@ -140,7 +149,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
 
         viewPager.setAdapter(adapter);
 
-//        getVideo(movie.getId());
+        getVideo(movie.getId());
         getMovieImages(movie.getId()
 
         );
@@ -208,6 +217,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void success(ResponseMovieVideoDTO responseMovieVideoDTO, Response response) {
                 Log.d(TAG, "success getting movie video from server " + responseMovieVideoDTO);
+                movieVideoDTO = responseMovieVideoDTO;
             }
 
             @Override
@@ -226,7 +236,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
                 movieprogress_bar.setVisibility(GONE);
                 similarMovies = responseMovieDTO.getMovies();
                 initSimilar(responseMovieDTO.getMovies());
-                if(similarMovies.isEmpty()){
+                if (similarMovies.isEmpty()) {
+                    similarMovieTextView.setVisibility(GONE);
                     Toast.makeText(MovieDetailsActivity.this, "No similar movies", Toast.LENGTH_LONG).show();
                 }
             }
@@ -276,8 +287,44 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
         return movieGenres;
     }
 
+    public void openYouTubeVideo() {
+        if (movieVideoDTO != null) {
+
+            /*"id": "533ec654c3a36854480003eb",
+                    "iso_639_1": "en",
+                    "iso_3166_1": "US",
+                    "key": "SUXWAEX2jlg",
+                    "name": "Trailer 1",
+                    "site": "YouTube",
+                    "size": 720,
+                    "type": "Trailer"*/
+            Intent i = new Intent(MovieDetailsActivity.this, PlayerActivity.class);
+            i.putExtra("youtubeVideoKey", getVideoKey());
+            startActivity(i);
+        } else {
+            getVideo(movie.getId());
+        }
+    }
+
+    private String getVideoKey() {
+        if (movieVideoDTO != null) {
+            List<MovieVideoDTO> trailers = movieVideoDTO.getVideo();
+            for (MovieVideoDTO video : trailers) {
+                if (video.getSite().equals("YouTube")) {
+                    return video.getKey();
+                }
+            }
+        }
+        return "";
+    }
+
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.playtxt:
+                openYouTubeVideo();
+                break;
+        }
 
     }
 
