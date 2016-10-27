@@ -275,13 +275,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements View.OnCl
     private String getMovieGenres() {
         List<GenreDTO> genres = preference.getMovieGenres();
         String movieGenres = "";
-        for (int i = 0; i < movie.getGenreIds().length; i++) {
+            for (int i = 0; i < movie.getGenreIds().length; i++) {
             int genreId = movie.getGenreIds()[i];
             for (GenreDTO genre : genres) {
                 if (genre.getId() == genreId) {
                     movieGenres += genre.getName() + ", ";
                 }
-
             }
         }
         return movieGenres;

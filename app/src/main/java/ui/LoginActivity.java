@@ -43,6 +43,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import util.AppPreference;
 import util.AppUtils;
+import util.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView logoIcon;
@@ -59,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.login_layout);
         AppEventsLogger.activateApp(this);
+
+
+
 
         preference = new AppPreference(this);
         List<MovieDTO> savedMovies = preference.getSavedMovies();

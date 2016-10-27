@@ -25,8 +25,6 @@ import ui.MovieDetailsActivity;
 import ui.TVDetailsActivity;
 import util.AppUtils;
 
-import static util.AppUtils.movies;
-import static util.AppUtils.tvshows;
 
 /**
  * Created by Vlade Ilievski on 9/14/2016.
@@ -76,7 +74,8 @@ public class FavoriteDetailsFragment extends Fragment {
             favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    MovieDetailsActivity.openActivity(getActivity(),movies.get(position));
+                    ArrayList<MovieDTO> favMovies=new ArrayList<MovieDTO>(AppUtils.getFavourites());
+                    MovieDetailsActivity.openActivity(getActivity(),favMovies.get(position));
                 }
             });
         } else if (favoritesType == TV_FAV) {
@@ -84,7 +83,8 @@ public class FavoriteDetailsFragment extends Fragment {
             favouriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TVDetailsActivity.openActivity(getActivity(),tvshows.get(position));
+                    ArrayList<TVDTO> favTvShows=new ArrayList<TVDTO>(AppUtils.getFavouritestvshow());
+                    TVDetailsActivity.openActivity(getActivity(),favTvShows.get(position));
                 }
             });
 
